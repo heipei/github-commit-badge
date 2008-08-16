@@ -4,3 +4,4 @@
 	myLib.setAttribute("src","lib/" + lib + ".js");
 	document.documentElement.appendChild(myLib);
 });
+jQuery.noConflict();

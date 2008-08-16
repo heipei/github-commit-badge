@@ -4,7 +4,6 @@
 
 var myBadge = document.createElement("div");
 myBadge.setAttribute("class","outline");
-myBadge.setAttribute("id","badge"+USERNAME + REPO);
 
 var myUserRepo = document.createElement("div");
 myUserRepo.setAttribute("class","username");
@@ -15,7 +14,7 @@ myLink.setAttribute("class","username");
 myLink.appendChild(document.createTextNode(USERNAME + "/" + REPO));
 myUserRepo.appendChild(myLink);
 
-myCommitMessage = document.createElement("div");
+var myCommitMessage = document.createElement("div");
 myCommitMessage.setAttribute("class","commitmessage");
 var myDiffLine = document.createElement("div");
 myDiffLine.setAttribute("class","diffline");
@@ -29,7 +28,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + USERNAME + "/" + REPO + "/comm
 		
 		var myImage = document.createElement("img");
 		myImage.setAttribute("src","http://www.gravatar.com/avatar/" + hex_md5(MyEval.commit.committer.email) + "?s=60");
-		myImage.setAttribute("class","gravatar");
+		myImage.className = "gravatar";
 		myDiffLine.appendChild(myImage);
 		
 		var myLink = document.createElement("a");
@@ -50,7 +49,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + USERNAME + "/" + REPO + "/comm
 		
 		myCommitMessage.appendChild(document.createTextNode("\"" + MyEval.commit.message + "\""));
 
-		/* myAdded = document.createElement("span");//{{{
+		/* myAdded = document.createElement("span");
 		myAdded.id = "diffadded";
 		myAdded.appendChild(document.createTextNode(" added"));
 		myRemoved = document.createElement("span");
@@ -65,8 +64,8 @@ jQuery.getJSON("http://github.com/api/v1/json/" + USERNAME + "/" + REPO + "/comm
 		myDiffStat.appendChild(myRemoved);
 		myDiffStat.appendChild(document.createTextNode(", " + MyEval.commit.modified.length));
 		myDiffStat.appendChild(myChanged);
-		myDiffStat.appendChild(document.createTextNode(")")); *///}}}
-		myDiffStat.innerHTML = "( " + MyEval.commit.added.length + " <span id=\"diffadded\">added<\/span>, " + MyEval.commit.removed.length + " <span id=\"diffremoved\">removed<\/span>, " + MyEval.commit.modified.length + " <span id=\"diffchanged\">changed<\/span>)"; 
+		myDiffStat.appendChild(document.createTextNode(")")); */
+		myDiffStat.innerHTML = "( " + MyEval.commit.added.length + " <span id=\"diffadded\">added<\/span>, " + MyEval.commit.removed.length + " <span id=\"diffremoved\">removed<\/span>, " + MyEval.commit.modified.length + " <span id=\"diffchanged\">changed<\/span>)";
 	});
 
 myBadge.appendChild(myUserRepo);
