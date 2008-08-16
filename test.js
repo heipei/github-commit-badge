@@ -19,7 +19,7 @@ myCommitMessage.setAttribute("class","commitmessage");
 var myDiffLine = document.createElement("div");
 myDiffLine.setAttribute("class","diffline");
 
-var myDiffStat = document.createElement("div");
+myDiffStat = document.createElement("div");
 myDiffStat.setAttribute("class","diffstat");
 
 jQuery.getJSON("http://github.com/api/v1/json/" + USERNAME + "/" + REPO + "/commit/" + BRANCH + "?callback=?",
@@ -48,7 +48,6 @@ jQuery.getJSON("http://github.com/api/v1/json/" + USERNAME + "/" + REPO + "/comm
 		myDiffLine.appendChild(myDate);
 		
 		myCommitMessage.appendChild(document.createTextNode("\"" + MyEval.commit.message + "\""));
-
 		/* myAdded = document.createElement("span");
 		myAdded.id = "diffadded";
 		myAdded.appendChild(document.createTextNode(" added"));
