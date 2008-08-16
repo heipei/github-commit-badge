@@ -1,0 +1,88 @@
+body, * {
+	font-family: Verdana, arial, sans-serif;
+	font-size: 97%;
+}
+
+div {
+	border: 0px;
+}
+
+div#container {
+	width: 600px;
+}
+
+div.outline {
+	border: 1px solid gray;
+	border-color: gray;
+	overflow: auto;
+	margin: 8px;
+	padding: 5px;
+	padding-top: 3px;
+	background-color: #ddffff;
+}
+
+div.username {
+	border: 0px;
+	width: 20px;
+	margin: 0px;
+	color: yellow;
+	font-weight: bold;
+}
+
+div.diffline {
+	color: black;
+	font-weight: bold;
+}
+
+div.commitmessage {
+	font-style: italic;
+	padding-left: 80px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+div.diffstat {
+	font-weight: normal;
+	font-size: 0.9em;
+}
+
+a, a:visited, a:hover {
+	color: #3399FF;
+	border: 0px;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a.username {
+	color: #3399FF;
+	text-decoration: underline;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+span {
+	color: black;
+	background-color: #fff6a9;
+}
+
+span#diffadded {
+	color: green;
+	background-color: transparent;
+}
+
+span#diffremoved {
+	color: red;
+	background-color: transparent;
+}
+
+span#diffchanged {
+	color: purple;
+	background-color: transparent;
+}
+
+img, img.gravatar {
+	border: 1px solid #fff6a9;
+	margin: 5px;
+	float: left;
+	margin: 2px;
+}
