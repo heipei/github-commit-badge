@@ -1,13 +1,6 @@
-body, * {
-	font-family: Verdana, arial, sans-serif;
-	font-size: 97%;
-}
-
-div {
-	border: 0px;
-}
-
 div#container {
+	font-family: Verdana, arial, sans-serif;
+	font-size: 80%;
 	width: 600px;
 }
 
@@ -17,7 +10,7 @@ div.outline {
 	overflow: auto;
 	margin: 8px;
 	padding: 5px;
-	padding-top: 3px;
+	padding-top: 0px;
 	background-color: #ddffff;
 }
 
@@ -45,21 +38,28 @@ div.diffstat {
 	font-size: 0.9em;
 }
 
-a, a:visited, a:hover {
+a.badge, a.badge:visited, a.badge:link, a.badge:active {
 	color: #3399FF;
-	border: 0px;
 	text-decoration: none;
 	font-weight: bold;
 }
 
-a.username {
+a.badge:hover {
+	text-decoration: underline;
+}
+
+a.username, a.username:visited, a.username:link a.username:active {
 	color: #3399FF;
 	text-decoration: underline;
 	font-weight: bold;
 	font-size: 1.1em;
 }
 
-span {
+a.username:hover {
+	text-decoration: none;
+}
+
+span#text {
 	color: black;
 	background-color: #fff6a9;
 }
@@ -79,7 +79,7 @@ span#diffchanged {
 	background-color: transparent;
 }
 
-img, img.gravatar {
+img.gravatar {
 	border: 1px solid #fff6a9;
 	margin: 5px;
 	float: left;

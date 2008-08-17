@@ -38,12 +38,15 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		
 		var myLink = document.createElement("a");
 		myLink.setAttribute("href",myEval.commit.url);
+		myLink.setAttribute("class","badge");
 		myLink.appendChild(document.createTextNode(" " + myEval.commit.id.truncate(10,"")));
 		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " "));
 		var mySpan = document.createElement("span");
+		mySpan.setAttribute("id","text");
 		mySpan.appendChild(document.createTextNode("committed"));
 		
 		var myDate = document.createElement("span");
+		myDate.setAttribute("id","text");
 		var myParsedDate = Date.parse(myEval.commit.committed_date).toString("yyyy-MM-dd @ HH:mm");
 		myDate.appendChild(document.createTextNode(myParsedDate));
 		
