@@ -16,7 +16,8 @@ TODO or come up with something own.
 Usage
 =====
 
-To use it on your website you'll have to put this somewhere. To adjust the
+To use it on your website you'll have to put this somewhere. This means the .js 
+file as well as the .css and the lib/ and img/ directories. To adjust the
 width of the whole thing look inside the style.css and set it for the 
 container-class. I know that the way to define user/repos is still somewhat
 cumbersome.
