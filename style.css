@@ -1,10 +1,10 @@
-div#container {
+div#github-commit-badge-container {
 	font-family: Verdana, arial, sans-serif;
 	font-size: 80%;
 	width: 600px;
 }
 
-div.outline {
+div.github-commit-badge-outline {
 	border: 1px solid gray;
 	border-color: gray;
 	overflow: auto;
@@ -14,72 +14,80 @@ div.outline {
 	background-color: #ddffff;
 }
 
-div.username {
+div.github-commit-badge-username {
 	border: 0px;
 	margin: 0px;
+	margin-top: 2px;
+	padding-left: 18px;
 	color: yellow;
 	font-weight: bold;
+	background-image:url(img/public.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
 }
 
-div.diffline {
+div.github-commit-badge-diffline {
 	color: black;
 	font-weight: bold;
 }
 
-div.commitmessage {
+div.github-commit-badge-commitmessage {
 	font-style: italic;
-	padding-left: 80px;
-	margin-top: 3px;
-	margin-bottom: 3px;
+	padding-left: 90px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-image:url(img/commit.png);
+	background-repeat: no-repeat;
+	background-position: 70px 0px;
 }
 
-div.diffstat {
+div.github-commit-badge-diffstat {
 	font-weight: normal;
 	font-size: 0.9em;
 }
 
-a.badge, a.badge:visited, a.badge:link, a.badge:active {
+a.github-commit-badge-badge, a.github-commit-badge-badge:visited, a.github-commit-badge-badge:link, a.github-commit-badge-badge:active {
 	color: #3399FF;
 	text-decoration: none;
 	font-weight: bold;
 }
 
-a.badge:hover {
+a.github-commit-badge-badge:hover {
 	text-decoration: underline;
 }
 
-a.username, a.username:visited, a.username:link a.username:active {
+a.github-commit-badge-username, a.github-commit-badge-username:visited, a.github-commit-badge-username:link a.github-commit-badge-username:active {
 	color: #3399FF;
 	text-decoration: underline;
 	font-weight: bold;
 	font-size: 1.1em;
 }
 
-a.username:hover {
+a.github-commit-badge-username:hover {
 	text-decoration: none;
 }
 
-span#text {
+span#github-commit-badge-text {
 	color: black;
 	background-color: #fff6a9;
 }
 
-span#diffadded {
+span#github-commit-badge-diffadded {
 	color: green;
 	background-color: transparent;
 }
 
-span#diffremoved {
+span#github-commit-badge-diffremoved {
 	color: red;
 	background-color: transparent;
 }
 
-span#diffchanged {
+span#github-commit-badge-diffchanged {
 	color: purple;
 	background-color: transparent;
 }
 
-img.gravatar {
+img.github-commit-badge-gravatar {
 	border: 1px solid #fff6a9;
 	margin: 5px;
 	float: left;
