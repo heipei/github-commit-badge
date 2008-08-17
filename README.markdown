@@ -42,7 +42,8 @@ cumbersome.
 Website
 =======
 
-None yet ;)
+[https://github.com/heipei/github-commit-badge/tree](https://github.com/heipei/github-commit-badge/tree) for now.
+See a working demonstration at [http://hackvalue.de/~heipei/tmp/github-commit-badge/](http://hackvalue.de/~heipei/tmp/github-commit-badge/)
 
 FAQ
 ===
