@@ -39,6 +39,16 @@ cumbersome.
 		<script type="text/javascript" src="github-commit-badge.js"></script>	
 	</div>
 
+If you want to use it on something like WordPress you'll have to put HTML
+quotes around the content of the first script-block 
+		<script type="text/javascript">
+			<!--
+				var Badges = new Array();
+				[...]
+				Badges[1]["branch"] = "master";
+			-->
+		</script>
+
 Website
 =======
 
