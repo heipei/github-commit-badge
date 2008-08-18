@@ -3,8 +3,15 @@
 // The source-code should be pretty self-explanatory. Also look at the 
 // style.css to customize the badge.
 
+function truncate(string, length, truncation) {
+    length = length || 30;
+    truncation = (typeof truncation == 'undefined') ? '...' : truncation;
+    return string.length > length ?
+      string.slice(0, length - truncation.length) + truncation : string;
+};
+
 function mainpage () {
-Badges.each(function(badgeData) {
+jQuery.each(Badges, function(i, badgeData) {
 
 jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + badgeData["repo"] 
 	+ "/commit/" + badgeData["branch"] + "?callback=?", function(data) {
@@ -39,7 +46,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		var myLink = document.createElement("a");
 		myLink.setAttribute("href",myEval.commit.url);
 		myLink.setAttribute("class", "github-commit-badge-badge");
-		myLink.appendChild(document.createTextNode(" " + myEval.commit.id.truncate(10,"")));
+		myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,10,"")));
 		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " "));
 		var mySpan = document.createElement("span");
 		mySpan.setAttribute("class","github-commit-badge-text");
@@ -58,7 +65,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		// myCommitMessage is the commit-message
 		var myCommitMessage = document.createElement("div");
 		myCommitMessage.setAttribute("class", "github-commit-badge-commitmessage");
-		myCommitMessage.appendChild(document.createTextNode("\"" + myEval.commit.message.truncate(100) + "\""));
+		myCommitMessage.appendChild(document.createTextNode("\"" + truncate(myEval.commit.message,100) + "\""));
 		
 		// myDiffStat shows how many files were added/removed/changed
 		var myDiffStat = document.createElement("div");
