@@ -40,11 +40,11 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myLink.appendChild(document.createTextNode(" " + myEval.commit.id.truncate(10,"")));
 		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " "));
 		var mySpan = document.createElement("span");
-		mySpan.setAttribute("id","github-commit-badge-text");
+		mySpan.setAttribute("class","github-commit-badge-text");
 		mySpan.appendChild(document.createTextNode("committed"));
 		
 		var myDate = document.createElement("span");
-		myDate.setAttribute("id","github-commit-badge-text");
+		myDate.setAttribute("class","github-commit-badge-text");
 		var myParsedDate = Date.parse(myEval.commit.committed_date).toString("yyyy-MM-dd @ HH:mm");
 		myDate.appendChild(document.createTextNode(myParsedDate));
 		
@@ -54,9 +54,9 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myDiffLine.appendChild(myDate);
 		
 		myCommitMessage.appendChild(document.createTextNode("\"" + myEval.commit.message + "\""));
-		myDiffStat.innerHTML = "(" + myEval.commit.added.length + " <span id=\"github-commit-badge-diffadded\">added<\/span>, " 
-			+ myEval.commit.removed.length + " <span id=\"github-commit-badge-diffremoved\">removed<\/span>, " 
-			+ myEval.commit.modified.length + " <span id=\"github-commit-badge-diffchanged\">changed<\/span>)";
+		myDiffStat.innerHTML = "(" + myEval.commit.added.length + " <span class=\"github-commit-badge-diffadded\">added<\/span>, " 
+			+ myEval.commit.removed.length + " <span class=\"github-commit-badge-diffremoved\">removed<\/span>, " 
+			+ myEval.commit.modified.length + " <span class=\"github-commit-badge-diffchanged\">changed<\/span>)";
 		myBadge.appendChild(myUserRepo);
 		myBadge.appendChild(myDiffLine);
 		myBadge.appendChild(myCommitMessage);

@@ -67,22 +67,22 @@ a.github-commit-badge-username:hover {
 	text-decoration: none;
 }
 
-span#github-commit-badge-text {
+span.github-commit-badge-text {
 	color: black;
 	background-color: #fff6a9;
 }
 
-span#github-commit-badge-diffadded {
+span.github-commit-badge-diffadded {
 	color: green;
 	background-color: transparent;
 }
 
-span#github-commit-badge-diffremoved {
+span.github-commit-badge-diffremoved {
 	color: red;
 	background-color: transparent;
 }
 
-span#github-commit-badge-diffchanged {
+span.github-commit-badge-diffchanged {
 	color: purple;
 	background-color: transparent;
 }

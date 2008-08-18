@@ -60,7 +60,7 @@ A: Because I don't know a thing about JavaScript and the million
 Q: What libs are used (and what for)?
 A: Prototype for .each and truncate, jQuery for jQuery.getJSON, datejs for
 	Date.parse and md5 for md5_hex (for the gravatar).
-	Also I learned a lot from DrNic's [http://github.com/drnic/github-badges/tree](github-badges).
+	Also I learned a lot from DrNic's GitHub-badges [http://github.com/drnic/github-badges/tree](github-badges).
 	
 Author
 ======
