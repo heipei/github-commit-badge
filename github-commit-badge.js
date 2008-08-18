@@ -14,7 +14,7 @@ function mainpage () {
 jQuery.each(Badges, function(i, badgeData) {
 
 jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + badgeData["repo"] 
-	+ "/commit/" + badgeData["branch"] + "?callback=?", function(data) {
+	+ "/commit/" + ((typeof badgeData["branch"] == 'undefined') ? "master" : badgeData["branch"]) + "?callback=?", function(data) {
 		
 		var myUser = badgeData["username"];
 		var myRepo = badgeData["repo"];
@@ -37,7 +37,8 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		// myDiffLine is the "foo committed xy on date" line 
 		var myDiffLine = document.createElement("div");
 		myDiffLine.setAttribute("class", "github-commit-badge-diffline");
-		
+	
+		// the image-class uses float:left to sit left of the commit-message
 		var myImage = document.createElement("img");
 		myImage.setAttribute("src","http://www.gravatar.com/avatar/" + hex_md5(myEval.commit.committer.email) + "?s=60");
 		myImage.setAttribute("class","github-commit-badge-gravatar");

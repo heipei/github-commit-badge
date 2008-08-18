@@ -1,4 +1,5 @@
 - Smiley beside the repo-name [DONE]
 - Brick beside commit-message [DONE]
+- Strip unnecessary functions from prototype (the biggest lib) [DONE] (prototype removed)
+- make BRANCH=master default and branch argument optional [DONE]
 - "Show files" link which expands the box and shows which files were added/removed/changed
-- Strip unnecessary functions from prototype (the biggest lib)

@@ -20,7 +20,7 @@ To use it on your website you'll have to put this somewhere. This means the .js
 file as well as the .css and the lib/ and img/ directories. To adjust the
 width of the whole thing look inside the style.css and set it for the 
 container-class. I know that the way to define user/repos is still somewhat
-cumbersome.
+cumbersome. The "branch" entry is optional, default is "master".
 
 	<div id="github-commit-badge-container">
 		<script type="text/javascript">
@@ -28,7 +28,6 @@ cumbersome.
 			Badges[0] = new Object;
 			Badges[0]["username"] = "heipei";
 			Badges[0]["repo"] = "github-test";
-			Badges[0]["branch"] = "master";
 			
 			Badges[1] = new Object;
 			Badges[1]["username"] = "heipei";
