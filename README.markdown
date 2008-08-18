@@ -65,4 +65,4 @@ A: Prototype for .each and truncate, jQuery for jQuery.getJSON, datejs for
 Author
 ======
 
-Johannes Gilger <heipei@hackvalue.de>
+Johannes 'heipei' Gilger <heipei@hackvalue.de>

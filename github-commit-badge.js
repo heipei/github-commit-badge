@@ -1,4 +1,8 @@
-// The necessary libraries
+// github-commit-badge.js (c) 2008 by Johannes 'heipei' Gilger
+//
+// The source-code should be pretty self-explanatory. Also look at the 
+// style.css to customize the badge.
+
 function mainpage () {
 Badges.each(function(badgeData) {
 
@@ -9,9 +13,11 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		var myRepo = badgeData["repo"];
 		var myEval = eval ( data );
 		
+		// outline-class is used for the badge with the border
 		var myBadge = document.createElement("div");
 		myBadge.setAttribute("class","github-commit-badge-outline");
 
+		// the username/repo
 		var myUserRepo = document.createElement("div");
 		myUserRepo.setAttribute("class","github-commit-badge-username");
 
@@ -21,17 +27,13 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myLink.appendChild(document.createTextNode(myUser + "/" + myRepo));
 		myUserRepo.appendChild(myLink);
 
-		var myCommitMessage = document.createElement("div");
-		myCommitMessage.setAttribute("class", "github-commit-badge-commitmessage");
+		// myDiffLine is the "foo committed xy on date" line 
 		var myDiffLine = document.createElement("div");
 		myDiffLine.setAttribute("class", "github-commit-badge-diffline");
-
-		var myDiffStat = document.createElement("div");
-		myDiffStat.setAttribute("class", "github-commit-badge-diffstat");
 		
 		var myImage = document.createElement("img");
 		myImage.setAttribute("src","http://www.gravatar.com/avatar/" + hex_md5(myEval.commit.committer.email) + "?s=60");
-		myImage.className = "github-commit-badge-gravatar";
+		myImage.setAttribute("class","github-commit-badge-gravatar");
 		myDiffLine.appendChild(myImage);
 		
 		var myLink = document.createElement("a");
@@ -53,14 +55,25 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myDiffLine.appendChild(document.createElement("span").appendChild(document.createTextNode(" on ")));
 		myDiffLine.appendChild(myDate);
 		
-		myCommitMessage.appendChild(document.createTextNode("\"" + myEval.commit.message + "\""));
+		// myCommitMessage is the commit-message
+		var myCommitMessage = document.createElement("div");
+		myCommitMessage.setAttribute("class", "github-commit-badge-commitmessage");
+		myCommitMessage.appendChild(document.createTextNode("\"" + myEval.commit.message.truncate(100) + "\""));
+		
+		// myDiffStat shows how many files were added/removed/changed
+		var myDiffStat = document.createElement("div");
+		myDiffStat.setAttribute("class", "github-commit-badge-diffstat");
 		myDiffStat.innerHTML = "(" + myEval.commit.added.length + " <span class=\"github-commit-badge-diffadded\">added<\/span>, " 
 			+ myEval.commit.removed.length + " <span class=\"github-commit-badge-diffremoved\">removed<\/span>, " 
 			+ myEval.commit.modified.length + " <span class=\"github-commit-badge-diffchanged\">changed<\/span>)";
+		
+		// throw everything into our badge
 		myBadge.appendChild(myUserRepo);
 		myBadge.appendChild(myDiffLine);
 		myBadge.appendChild(myCommitMessage);
 		myBadge.appendChild(myDiffStat);
+		
+		// and then the whole badge into the container
 		var myContainer = document.getElementById("github-commit-badge-container");
 		myContainer.appendChild(myBadge);
 });
