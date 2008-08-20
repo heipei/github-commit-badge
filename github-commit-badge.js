@@ -3,6 +3,7 @@
 // The source-code should be pretty self-explanatory. Also look at the 
 // style.css to customize the badge.
 
+// for truncating the commit-id and commit-message in place
 function truncate(string, length, truncation) {
     length = length || 30;
     truncation = (typeof truncation == 'undefined') ? '...' : truncation;
@@ -88,10 +89,10 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 });
 };
 
-// libs we need (mind the order!)
+// libs we need (mind the order!) (probably obsolete now)
 var myLibs = ["everything"];
 
-// For setting the loadpath correctly
+// Getting the path/url by looking at our main .js already included in the web-page
 var myScriptsDefs = document.getElementsByTagName("script");
 for (var i=0; i < myScriptsDefs.length; i++) {
 	if (myScriptsDefs[i].src && myScriptsDefs[i].src.match(/github-commit-badge\.js/)) {
@@ -104,18 +105,12 @@ for (var i=0; i < myLibs.length; ++i) {
 	var myScript = document.createElement("script");
 	myScript.setAttribute("type","text/javascript");
 	myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".js");
-	if (i == myLibs.length-1) {	// timing problems
+	if (i == myLibs.length-1) {	// only load our main function after the lib has finished loading
 		myScript.setAttribute("onload","mainpage();");
 	};
 	document.getElementById("github-commit-badge-container").appendChild(myScript);
-	if (myLibs[i] == "everything") {	// needed for using jQuery and prototype together
-		var myScript = document.createElement("script");
-		myScript.setAttribute("type","text/javascript");
-		myScript.appendChild(document.createTextNode("jQuery.noConflict();"));
-		document.getElementById("github-commit-badge-container").appendChild(myScript);
-	};
-
 };
+
 // Write the stylesheet into the <head>
 myHead = document.getElementsByTagName("head")[0];
 myCSS = document.createElement("link");
