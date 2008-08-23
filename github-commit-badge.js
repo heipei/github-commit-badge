@@ -104,7 +104,7 @@ for (var i=0; i < myScriptsDefs.length; i++) {
 for (var i=0; i < myLibs.length; ++i) {
 	var myScript = document.createElement("script");
 	myScript.setAttribute("type","text/javascript");
-	myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".js");
+	myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".jsgz");
 	if (i == myLibs.length-1) {	// only load our main function after the lib has finished loading
 		myScript.setAttribute("onload","mainpage();");
 	};
