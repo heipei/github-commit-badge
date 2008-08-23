@@ -74,13 +74,12 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myDiffStat.setAttribute("class", "github-commit-badge-diffstat");
 		myDiffStat.innerHTML = "(" + myEval.commit.added.length + " <span class=\"github-commit-badge-diffadded\">added<\/span>, " 
 			+ myEval.commit.removed.length + " <span class=\"github-commit-badge-diffremoved\">removed<\/span>, " 
-			+ myEval.commit.modified.length + " <span class=\"github-commit-badge-diffchanged\">changed<\/span>) "
-			+ "<a href=\"#\" class=\"github-commit-badge-showMoreLink\" id=\"showMoreLink" + myUser + myRepo + "\">Show files<\/a>";
-		/* var myShowMoreLink = document.createElement("a");
-		myShowMoreLink.setAttribute("class","showMoreLink" + myUser + myRepo);
-		myShowMoreLink.setAttribute("href","#");
-		myShowMoreLink.appendChild(document.createTextNode("Show more"));
-		myDiffStat.appendChild(myShowMoreLink); */
+			+ myEval.commit.modified.length + " <span class=\"github-commit-badge-diffchanged\">changed<\/span>) ";
+		
+		// only show the "Show files" button if the commit actually added/removed/modified any files at all
+		if (myEval.commit.added.length != "0" || myEval.commit.removed.length != "0" || myEval.commit.modified.length != "0") {
+			myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href=\"#\" class=\"github-commit-badge-showMoreLink\" id=\"showMoreLink" + myUser + myRepo + "\">Show files<\/a>";
+		};
 
 		// myFileList lists addded/remove/changed files, hidden at startup
 		var myFileList = document.createElement("div");
@@ -117,6 +116,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		}); 
 		myModifiedFileList.appendChild(myList);
 		
+		// add the 3 sections only if they have files in them
 		if (myEval.commit.added.length > 0 ) {
 			myFileList.appendChild(myAddedFileList);
 		};
@@ -126,6 +126,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		if (myEval.commit.modified.length > 0 ) {
 			myFileList.appendChild(myModifiedFileList);
 		};
+
 		// throw everything into our badge
 		myBadge.appendChild(myUserRepo);
 		myBadge.appendChild(myDiffLine);
@@ -166,7 +167,11 @@ for (var i=0; i < myScriptsDefs.length; i++) {
 for (var i=0; i < myLibs.length; ++i) {
 	var myScript = document.createElement("script");
 	myScript.setAttribute("type","text/javascript");
-	myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".jsgz");
+	if (document.URL.match(/^http/)) {	// only serve the gzipped lib if we're serving from http
+		myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".jsgz");
+	} else {
+		myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".js");
+	};
 	if (i == myLibs.length-1) {	// only load our main function after the lib has finished loading
 		myScript.setAttribute("onload","mainpage();");
 	};

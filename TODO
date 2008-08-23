@@ -2,4 +2,5 @@
 - Brick beside commit-message [DONE]
 - Strip unnecessary functions from prototype (the biggest lib) [DONE] (prototype removed)
 - make BRANCH=master default and branch argument optional [DONE]
-- "Show files" link which expands the box and shows which files were added/removed/changed
+- "Show files" link which expands the box and shows which files were added/removed/changed [DONE]
+- Make things configurable (in github-commit-badge.js), like: dateformat, commit-message-length, gravatar size
