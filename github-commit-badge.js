@@ -136,8 +136,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myBadge.appendChild(myFileList);
 
 		// and then the whole badge into the container
-		var myContainer = document.getElementById("github-commit-badge-container");
-		myContainer.appendChild(myBadge);
+		$("#github-commit-badge-container")[0].appendChild(myBadge);
 
 		// initially hiding the file-list and the behaviour of the Show-files button
 		$("#" + myUser + myRepo).hide();	
