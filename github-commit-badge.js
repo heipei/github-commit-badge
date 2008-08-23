@@ -43,6 +43,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		var myImage = document.createElement("img");
 		myImage.setAttribute("src","http://www.gravatar.com/avatar/" + hex_md5(myEval.commit.committer.email) + "?s=60");
 		myImage.setAttribute("class","github-commit-badge-gravatar");
+		myImage.setAttribute("alt",myUser + myRepo);
 		myDiffLine.appendChild(myImage);
 		
 		var myLink = document.createElement("a");
@@ -78,7 +79,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		
 		// only show the "Show files" button if the commit actually added/removed/modified any files at all
 		if (myEval.commit.added.length != "0" || myEval.commit.removed.length != "0" || myEval.commit.modified.length != "0") {
-			myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href=\"#\" class=\"github-commit-badge-showMoreLink\" id=\"showMoreLink" + myUser + myRepo + "\">Show files<\/a>";
+			myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href=\"\" class=\"github-commit-badge-showMoreLink\" id=\"showMoreLink" + myUser + myRepo + "\">Show files<\/a>";
 		};
 
 		// myFileList lists addded/remove/changed files, hidden at startup
@@ -97,7 +98,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myAddedFileList.appendChild(myList);
 		
 		var myRemovedFileList = document.createElement("div");
-		myRemovedFileList.innerHTML = "<span class=\"github-commit-badge-diffremoved\">Removed:<\/span><ul>";
+		myRemovedFileList.innerHTML = "<span class=\"github-commit-badge-diffremoved\">Removed:<\/span>";
 		var myList = document.createElement("ul");
 		jQuery.each(myEval.commit.removed, function(j, myRemoved) {
 			var myFile = document.createElement("li");
@@ -107,7 +108,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myRemovedFileList.appendChild(myList);
 		
 		var myModifiedFileList = document.createElement("div");
-		myModifiedFileList.innerHTML = "<span class=\"github-commit-badge-diffchanged\">Changed:<\/span><ul>";
+		myModifiedFileList.innerHTML = "<span class=\"github-commit-badge-diffchanged\">Changed:<\/span>";
 		var myList = document.createElement("ul");
 		jQuery.each(myEval.commit.modified, function(j, myModified) {
 			var myFile = document.createElement("li");
@@ -141,12 +142,13 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		// initially hiding the file-list and the behaviour of the Show-files button
 		$("#" + myUser + myRepo).hide();	
 		$("#showMoreLink" + myUser + myRepo).click(function () {
-			$("#" + myUser + myRepo).toggle("slow");
+			$("#" + myUser + myRepo).toggle();
 			if ($(this).text() == "Show files") {
 				$(this).text("Hide files");
 			} else {
 				$(this).text("Show files");
 			};
+			return false;
 		});
 });
 });
@@ -173,7 +175,8 @@ for (var i=0; i < myLibs.length; ++i) {
 		myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".js");
 	};
 	if (i == myLibs.length-1) {	// only load our main function after the lib has finished loading
-		myScript.setAttribute("onload","mainpage();");
+		 //myScript.setAttribute("onload","mainpage();");
+		 document.getElementsByTagName("body")[0].setAttribute("onload","mainpage();");
 	};
 	document.getElementById("github-commit-badge-container").appendChild(myScript);
 };
