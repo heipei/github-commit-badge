@@ -93,3 +93,24 @@ img.github-commit-badge-gravatar {
 	float: left;
 	margin: 2px;
 }
+
+div.github-commit-badge-filelist {
+	margin-top: 10px;
+}
+
+div.github-commit-badge-filelist ul {
+	list-style-type: square;
+	list-style-position: inside;
+	margin: 0px;
+}
+	
+a.github-commit-badge-showMoreLink, a.github-commit-badge-showMoreLink:visited, a.github-commit-badge-showMoreLink:link a.github-commit-badge-showMoreLink:active {
+	color: #3399FF;
+	text-decoration: underline;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+a.github-commit-badge-showMoreLink:hover {
+	text-decoration: none;
+}
