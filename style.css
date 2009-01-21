@@ -67,7 +67,7 @@ a.github-commit-badge-username:hover {
 	text-decoration: none;
 }
 
-span.github-commit-badge-text {
+span.github-commit-badge-text, span.github-commit-badge-text-date {
 	color: black;
 	background-color: #fff6a9;
 }

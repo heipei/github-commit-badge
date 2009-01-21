@@ -11,6 +11,19 @@ function truncate(string, length, truncation) {
       string.slice(0, length - truncation.length) + truncation : string;
 };
 
+function parseDate(dateTime) {	// thanks to lachlanhardy
+	var timeZone = -1;	// or "-3" as appropriate
+
+	dateTime = dateTime.substring(0,19) + "Z";
+	var theirTime = dateTime.substring(11,13);
+	var ourTime = parseInt(theirTime) + 7 + timeZone;
+	if (ourTime > 24) {
+		ourTime = ourTime - 24;
+	};
+	dateTime = dateTime.replace("T" + theirTime, "T" + ourTime);
+	return dateTime;
+};
+
 function mainpage () {
 jQuery.each(Badges, function(i, badgeData) {
 
@@ -50,19 +63,16 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myLink.setAttribute("href",myEval.commit.url);
 		myLink.setAttribute("class", "github-commit-badge-badge");
 		myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,10,"")));
-		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " "));
-		var mySpan = document.createElement("span");
-		mySpan.setAttribute("class","github-commit-badge-text");
-		mySpan.appendChild(document.createTextNode("committed"));
+		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " committed "));
 		
 		var myDate = document.createElement("span");
-		myDate.setAttribute("class","github-commit-badge-text");
-		var myParsedDate = Date.parse(myEval.commit.committed_date).toString("yyyy-MM-dd @ HH:mm");
-		myDate.appendChild(document.createTextNode(myParsedDate));
+		var dateTime = parseDate(myEval.commit.committed_date);
+		myDate.setAttribute("class", "github-commit-badge-text-date");
+		myDate.setAttribute("title", dateTime);
+		myDate.appendChild(document.createTextNode(dateTime));
 		
-		myDiffLine.appendChild(mySpan);
 		myDiffLine.appendChild(myLink);
-		myDiffLine.appendChild(document.createElement("span").appendChild(document.createTextNode(" on ")));
+		myDiffLine.appendChild(document.createTextNode(" about "));
 		myDiffLine.appendChild(myDate);
 		
 		// myCommitMessage is the commit-message
@@ -149,6 +159,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 			};
 			return false;
 		});
+		$(".github-commit-badge-text-date").humane_dates();	// works here (still, ugly!)
 });
 });
 };
