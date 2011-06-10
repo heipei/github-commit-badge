@@ -80,18 +80,18 @@ function mainpage () {
 		    // myCommitMessage is the commit-message
 		    var myCommitMessage = document.createElement("div");
 		    myCommitMessage.setAttribute("class", "commitmessage");
-		    myCommitMessage.appendChild(document.createTextNode("\"" + truncate(myEval.commit.message,100) + "\""));
+		    myCommitMessage.appendChild(document.createTextNode('"' + truncate(myEval.commit.message,100) + '"'));
 		    
 		    // myDiffStat shows how many files were added/removed/changed
 		    var myDiffStat = document.createElement("div");
 		    myDiffStat.setAttribute("class", "diffstat");
-		    myDiffStat.innerHTML = "(" + added.length + " <span class='diffadded'>added<\/span>, " 
-			    + removed.length + " <span class='diffremoved'>removed<\/span>, " 
-			    + modified.length + " <span class='diffchanged'>changed<\/span>) ";
+		    myDiffStat.innerHTML = "(" + added.length + " <span class='diffadded'>added</span>, " 
+			    + removed.length + " <span class='diffremoved'>removed</span>, " 
+			    + modified.length + " <span class='diffchanged'>changed</span>) ";
 		    
 		    // only show the "Show files" button if the commit actually added/removed/modified any files at all
 		    if (added.length != "0" || removed.length != "0" || modified.length != "0") {
-			    myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>Show files<\/a>";
+			    myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>Show files</a>";
 		    };
 
 		    // myFileList lists addded/remove/changed files, hidden at startup
@@ -100,7 +100,7 @@ function mainpage () {
 		    myFileList.setAttribute("id", myUser + myRepo);
 
 		    var myAddedFileList = document.createElement("div");
-		    myAddedFileList.innerHTML = "<span class='diffadded'>Added:<\/span>";
+		    myAddedFileList.innerHTML = "<span class='diffadded'>Added:</span>";
 		    var myList = document.createElement("ul");
 		    $.each(added, function(j, myAdded) {
 			    var myFile = document.createElement("li");
@@ -110,7 +110,7 @@ function mainpage () {
 		    myAddedFileList.appendChild(myList);
 		    
 		    var myRemovedFileList = document.createElement("div");
-		    myRemovedFileList.innerHTML = "<span class='diffremoved'>Removed:<\/span>";
+		    myRemovedFileList.innerHTML = "<span class='diffremoved'>Removed:</span>";
 		    var myList = document.createElement("ul");
 		    $.each(removed, function(j, myRemoved) {
 			    var myFile = document.createElement("li");
@@ -120,7 +120,7 @@ function mainpage () {
 		    myRemovedFileList.appendChild(myList);
 		    
 		    var myModifiedFileList = document.createElement("div");
-		    myModifiedFileList.innerHTML = "<span class='diffchanged'>Changed:<\/span>";
+		    myModifiedFileList.innerHTML = "<span class='diffchanged'>Changed:</span>";
 		    var myList = document.createElement("ul");
 		    $.each(modified, function(j, myModified) {
 			    var myFile = document.createElement("li");
@@ -172,8 +172,8 @@ var myLibs = ["everything"];
 // Getting the path/url by looking at our main .js already included in the web-page
 var myScriptsDefs = document.getElementsByTagName("script");
 for (var i=0; i < myScriptsDefs.length; i++) {
-	if (myScriptsDefs[i].src && myScriptsDefs[i].src.match(/github-commit-badge\.js/)) {
-		this.path = myScriptsDefs[i].src.replace(/github-commit-badge\.js/, '');
+	if (myScriptsDefs[i].src && myScriptsDefs[i].src.match(/github-commit-badge.js/)) {
+		this.path = myScriptsDefs[i].src.replace(/github-commit-badge.js/, '');
 	};
 };
 
