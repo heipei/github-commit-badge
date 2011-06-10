@@ -4,7 +4,7 @@ Github Commit Badge
 This badge/banner can be used for displaying the latest (or a specific 
 commit) for a github-project on your website.
 
-<div><img src="http://hackvalue.de/heipei/wp-content/gallery/screenshots/github-commit-badge.png"></div>
+<div><img src="http://heipei.net/files/github-commit-badge/github-commit-badge.png"></div>
 
 It is implemented in JavaScript, therefore it is completely client-based.
 Since this is the first time I've actually used JavaScript, the first 
@@ -52,7 +52,7 @@ Website
 =======
 
 [http://github.com/heipei/github-commit-badge/tree](http://github.com/heipei/github-commit-badge/tree) for now.
-See a working demonstration at [http://hackvalue.de/~heipei/tmp/github-commit-badge/](http://hackvalue.de/~heipei/tmp/github-commit-badge/)
+See a working demonstration at [http://heipei.net/files/github-commit-badge/](http://heipei.net/files/github-commit-badge/)
 
 FAQ
 ===
