@@ -1,10 +1,10 @@
-#github-commit-badge-container {
+#gcb-container {
 	font-family: Verdana, arial, sans-serif;
 	font-size: 12.8px;
 	width: 580px;
 }
 
-.github-commit-badge-outline {
+#gcb-container .outline {
 	border: 1px solid #808080;
 	overflow: auto;
 	margin: 8px;
@@ -13,7 +13,7 @@
 	background-color: #e5e5ff;
 }
 
-div.github-commit-badge-username {
+#gcb-container .username {
 	border: 0;
 	margin: 2px 0 0;
 	height: 16px;
@@ -23,11 +23,11 @@ div.github-commit-badge-username {
 	background: url(img/public.png) no-repeat top left;
 }
 
-.github-commit-badge-diffline {
+#gcb-container .diffline {
 	font-weight: bold;
 }
 
-.github-commit-badge-commitmessage {
+#gcb-container .commitmessage {
 	font-style: italic;
 	padding-left: 90px;
 	margin-top: 5px;
@@ -36,62 +36,61 @@ div.github-commit-badge-username {
 	background: url(img/commit.png) no-repeat 70px top;
 }
 
-.github-commit-badge-diffstat {
+#gcb-container .diffstat {
 	font-weight: normal;
 	font-size: 0.9em;
 }
 
-.github-commit-badge-badge {
+#gcb-container .badge {
 	color: #3399ff;
 	text-decoration: none;
 }
 
-a.github-commit-badge-username {
+#gcb-container .username a {
 	color: #0080ff;
 	text-decoration: none;
 	font-size: 1.1em;
 }
 
-.github-commit-badge-text-date {
+#gcb-container .text-date {
 	background-color: #fff6a9;
 }
 
-.github-commit-badge-diffadded {
+#gcb-container .diffadded {
 	color: #008000;
 }
-.github-commit-badge-diffremoved {
+#gcb-container .diffremoved {
 	color: #f00;
 }
-.github-commit-badge-diffchanged {
+#gcb-container .diffchanged {
 	color: #800080;
 }
 
-.github-commit-badge-gravatar {
+#gcb-container .gravatar {
 	border: 1px solid #fff6a9;
 	float: left;
 	margin: 2px;
 }
 
-.github-commit-badge-filelist {
+#gcb-container .filelist {
 	margin-top: 15px;
 }
-
-.github-commit-badge-filelist ul {
+#gcb-container .filelist ul {
 	list-style: square inside;
 	margin: 0;
 }
 	
-.github-commit-badge-showMoreLink {
+#gcb-container .showMoreLink {
 	color: #3399ff;
 	font-size: 1.1em;
 }
 
-a {
+#gcb-container a {
 	font-weight: bold;
 }
 
-a.github-commit-badge-username:hover,
-.github-commit-badge-badge:hover,
-.github-commit-badge-showMoreLink:hover {
+#gcb-container .username a:hover,
+#gcb-container .badge:hover,
+#gcb-container .showMoreLink:hover {
 	text-decoration: none;
 }
