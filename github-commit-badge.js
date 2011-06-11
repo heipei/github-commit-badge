@@ -31,7 +31,7 @@ function mainpage () {
     
         $.getJSON(urlData, function(data) {
 		    var myUser = badgeData["username"];
-		    var myRepo = badgeData["repo"];
+		    var myRepo = badgeData["repo"].replace(/\./g, '-');
 		    var myEval = eval ( data );
 		    var added = myEval.commit.added || [];
 		    var modified = myEval.commit.modified || [];
@@ -46,8 +46,8 @@ function mainpage () {
 		    myUserRepo.setAttribute("class","username");
 
 		    var myLink = document.createElement("a");
-		    myLink.setAttribute("href","http://github.com/" + myUser + "/" + myRepo);
-		    myLink.appendChild(document.createTextNode(myUser + "/" + myRepo));
+		    myLink.setAttribute("href","http://github.com/" + myUser + "/" + badgeData["repo"]);
+		    myLink.appendChild(document.createTextNode(myUser + "/" + badgeData["repo"]));
 		    myUserRepo.appendChild(myLink);
 
 		    // myDiffLine is the "foo committed xy on date" line 
@@ -58,7 +58,7 @@ function mainpage () {
 		    var myImage = document.createElement("img");
 		    myImage.setAttribute("src","http://www.gravatar.com/avatar/" + hex_md5(myEval.commit.committer.email) + "?s=60");
 		    myImage.setAttribute("class","gravatar");
-		    myImage.setAttribute("alt",myUser + myRepo);
+		    myImage.setAttribute("alt",myUser);
 		    myDiffLine.appendChild(myImage);
 		    
 		    var myLink = document.createElement("a");
