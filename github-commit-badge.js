@@ -36,8 +36,9 @@ var GRAVATAR_IMG_SIZE = 60;
 
 function mainpage () {
     $.each(Badges, function(i, badgeData) {
+        var branchName = ((typeof badgeData.branch == 'undefined' || badgeData.branch.length == 0) ? DEFAULT_BRANCH_NAME : badgeData.branch);
         var urlData = "http://github.com/api/v1/json/" + badgeData.username + "/" + badgeData.repo 
-	        + "/commit/" + ((typeof badgeData.branch == 'undefined') ? DEFAULT_BRANCH_NAME : badgeData.branch) + "?callback=?";
+	        + "/commit/" + branchName + "?callback=?";
     
         $.getJSON(urlData, function(data) {
 		    var myUser = badgeData.username;
