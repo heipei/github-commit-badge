@@ -36,7 +36,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		var added = myEval.commit.added || [];
 		var modified = myEval.commit.modified || [];
 		var removed = myEval.commit.removed || [];
-
+        var githubUrl = 'http://github.com';
 		
 		// outline-class is used for the badge with the border
 		var myBadge = document.createElement("div");
@@ -47,7 +47,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myUserRepo.setAttribute("class","github-commit-badge-username");
 
 		var myLink = document.createElement("a");
-		myLink.setAttribute("href","http://github.com/" + myUser + "/" + myRepo);
+		myLink.setAttribute("href",githubUrl + "/" + myUser + "/" + myRepo);
 		myLink.setAttribute("class","github-commit-badge-username");
 		myLink.appendChild(document.createTextNode(myUser + "/" + myRepo));
 		myUserRepo.appendChild(myLink);
@@ -64,7 +64,7 @@ jQuery.getJSON("http://github.com/api/v1/json/" + badgeData["username"] + "/" + 
 		myDiffLine.appendChild(myImage);
 		
 		var myLink = document.createElement("a");
-		myLink.setAttribute("href",myEval.commit.url);
+		myLink.setAttribute("href",githubUrl + myEval.commit.url);
 		myLink.setAttribute("class", "github-commit-badge-badge");
 		myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,10,"")));
 		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " committed "));
