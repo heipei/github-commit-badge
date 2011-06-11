@@ -91,7 +91,7 @@ function mainpage () {
 		    
 		    // only show the "Show files" button if the commit actually added/removed/modified any files at all
 		    if (added.length != "0" || removed.length != "0" || modified.length != "0") {
-			    myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>Show files</a>";
+			    myDiffStat.innerHTML += "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>Show files</a>";
 		    };
 
 		    // myFileList lists addded/remove/changed files, hidden at startup
@@ -102,8 +102,9 @@ function mainpage () {
 		    var myAddedFileList = document.createElement("div");
 		    myAddedFileList.innerHTML = "<span class='diffadded'>Added:</span>";
 		    var myList = document.createElement("ul");
-		    $.each(added, function(j, myAdded) {
-			    var myFile = document.createElement("li");
+		    var myFile;
+            $.each(added, function(j, myAdded) {
+			    myFile = document.createElement("li");
 			    myFile.appendChild(document.createTextNode(myAdded.filename));
 			    myList.appendChild(myFile);
 		    }); 
@@ -113,7 +114,7 @@ function mainpage () {
 		    myRemovedFileList.innerHTML = "<span class='diffremoved'>Removed:</span>";
 		    var myList = document.createElement("ul");
 		    $.each(removed, function(j, myRemoved) {
-			    var myFile = document.createElement("li");
+			    myFile = document.createElement("li");
 			    myFile.appendChild(document.createTextNode(myRemoved.filename));
 			    myList.appendChild(myFile);
 		    }); 
@@ -121,9 +122,9 @@ function mainpage () {
 		    
 		    var myModifiedFileList = document.createElement("div");
 		    myModifiedFileList.innerHTML = "<span class='diffchanged'>Changed:</span>";
-		    var myList = document.createElement("ul");
+		    myList = document.createElement("ul");
 		    $.each(modified, function(j, myModified) {
-			    var myFile = document.createElement("li");
+			    myFile = document.createElement("li");
 			    myFile.appendChild(document.createTextNode(myModified.filename));
 			    myList.appendChild(myFile);
 		    }); 
