@@ -5,10 +5,10 @@
 
 // for truncating the commit-id and commit-message in place
 function truncate(string, length, truncation) {
-    length = length || 30;
-    truncation = (typeof truncation == 'undefined') ? '...' : truncation;
-    return string.length > length ?
-      string.slice(0, length - truncation.length) + truncation : string;
+	length = length || 30;
+	truncation = (typeof truncation == 'undefined') ? '...' : truncation;
+	return string.length > length ?
+		string.slice(0, length - truncation.length) + truncation : string;
 };
 
 function parseDate(dateTime) {	// thanks to lachlanhardy
@@ -25,145 +25,157 @@ function parseDate(dateTime) {	// thanks to lachlanhardy
 };
 
 function mainpage () {
-    $.each(Badges, function(i, badgeData) {
-        var urlData = "http://github.com/api/v1/json/" + badgeData["username"] + "/" + badgeData["repo"] 
-	        + "/commit/" + ((typeof badgeData["branch"] == 'undefined') ? "master" : badgeData["branch"]) + "?callback=?";
-    
-        $.getJSON(urlData, function(data) {
-		    var myUser = badgeData["username"];
-		    var myRepo = badgeData["repo"];
-		    var myEval = eval ( data );
-		    var added = myEval.commit.added || [];
-		    var modified = myEval.commit.modified || [];
-		    var removed = myEval.commit.removed || [];
+	$.each(Badges, function(i, badgeData) {
+
+	var urlData = "http://github.com/api/v1/json/" + badgeData["username"] + "/" + badgeData["repo"] 
+		+ "/commit/" + ((typeof badgeData["branch"] == 'undefined') ? "master" : badgeData["branch"]) + "?callback=?";
+
+	$.getJSON(urlData, function(data) {
+		var myUser = badgeData["username"];
+		var myRepo = badgeData["repo"];
+		var myEval = eval ( data );
+		var added = myEval.commit.added || [];
+		var modified = myEval.commit.modified || [];
+		var removed = myEval.commit.removed || [];
 		
-		    // outline-class is used for the badge with the border
-		    var myBadge = document.createElement("div");
-		    myBadge.setAttribute("class","outline");
+		// outline-class is used for the badge with the border
+		var myBadge = document.createElement("div");
+		myBadge.setAttribute("class","outline");
 
-		    // the username/repo
-		    var myUserRepo = document.createElement("div");
-		    myUserRepo.setAttribute("class","username");
+		// the username/repo
+		var myUserRepo = document.createElement("div");
+		myUserRepo.setAttribute("class","username");
 
-		    var myLink = document.createElement("a");
-		    myLink.setAttribute("href","http://github.com/" + myUser + "/" + myRepo);
-		    myLink.appendChild(document.createTextNode(myUser + "/" + myRepo));
-		    myUserRepo.appendChild(myLink);
+		var myLink = document.createElement("a");
+		myLink.setAttribute("href","http://github.com/" + myUser + "/" + myRepo);
+		myLink.appendChild(document.createTextNode(myUser + "/" + myRepo));
+		myUserRepo.appendChild(myLink);
 
-		    // myDiffLine is the "foo committed xy on date" line 
-		    var myDiffLine = document.createElement("div");
-		    myDiffLine.setAttribute("class", "diffline");
-	        
-		    // the image-class uses float:left to sit left of the commit-message
-		    var myImage = document.createElement("img");
-		    myImage.setAttribute("src","http://www.gravatar.com/avatar/" + hex_md5(myEval.commit.committer.email) + "?s=60");
-		    myImage.setAttribute("class","gravatar");
-		    myImage.setAttribute("alt",myUser + myRepo);
-		    myDiffLine.appendChild(myImage);
-		    
-		    var myLink = document.createElement("a");
-		    myLink.setAttribute("href",myEval.commit.url);
-		    myLink.setAttribute("class", "badge");
-		    myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,10,"")));
-		    myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " committed "));
-		    
-		    var myDate = document.createElement("span");
-		    var dateTime = parseDate(myEval.commit.committed_date);
-		    myDate.setAttribute("class", "text-date");
-		    myDate.setAttribute("title", dateTime);
-		    myDate.appendChild(document.createTextNode(dateTime));
-		    
-		    myDiffLine.appendChild(myLink);
-		    myDiffLine.appendChild(document.createTextNode(" about "));
-		    myDiffLine.appendChild(myDate);
-		    
-		    // myCommitMessage is the commit-message
-		    var myCommitMessage = document.createElement("div");
-		    myCommitMessage.setAttribute("class", "commitmessage");
-		    myCommitMessage.appendChild(document.createTextNode('"' + truncate(myEval.commit.message,100) + '"'));
-		    
-		    // myDiffStat shows how many files were added/removed/changed
-		    var myDiffStat = document.createElement("div");
-		    myDiffStat.setAttribute("class", "diffstat");
-		    myDiffStat.innerHTML = "(" + added.length + " <span class='diffadded'>added</span>, " 
-			    + removed.length + " <span class='diffremoved'>removed</span>, " 
-			    + modified.length + " <span class='diffchanged'>changed</span>) ";
-		    
-		    // only show the "Show files" button if the commit actually added/removed/modified any files at all
-		    if (added.length != "0" || removed.length != "0" || modified.length != "0") {
-			    myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>Show files</a>";
-		    };
+		var request_url = "https://api.github.com/repos/" + badgeData["username"] + "/" + badgeData["repo"] + "/watchers" + "?callback=?"
+		$.getJSON(request_url, function(data) {
+			followers = document.createElement("span");
+			followers.setAttribute("class", "followers");
+			followers.innerHTML = " (" + data.data.length + " following)";
+			myUserRepo.appendChild(followers);
+		});
 
-		    // myFileList lists addded/remove/changed files, hidden at startup
-		    var myFileList = document.createElement("div");
-		    myFileList.setAttribute("class", "filelist");
-		    myFileList.setAttribute("id", myUser + myRepo);
 
-		    var myAddedFileList = document.createElement("div");
-		    myAddedFileList.innerHTML = "<span class='diffadded'>Added:</span>";
-		    var myList = document.createElement("ul");
-		    $.each(added, function(j, myAdded) {
-			    var myFile = document.createElement("li");
-			    myFile.appendChild(document.createTextNode(myAdded.filename));
-			    myList.appendChild(myFile);
-		    }); 
-		    myAddedFileList.appendChild(myList);
-		    
-		    var myRemovedFileList = document.createElement("div");
-		    myRemovedFileList.innerHTML = "<span class='diffremoved'>Removed:</span>";
-		    var myList = document.createElement("ul");
-		    $.each(removed, function(j, myRemoved) {
-			    var myFile = document.createElement("li");
-			    myFile.appendChild(document.createTextNode(myRemoved.filename));
-			    myList.appendChild(myFile);
-		    }); 
-		    myRemovedFileList.appendChild(myList);
-		    
-		    var myModifiedFileList = document.createElement("div");
-		    myModifiedFileList.innerHTML = "<span class='diffchanged'>Changed:</span>";
-		    var myList = document.createElement("ul");
-		    $.each(modified, function(j, myModified) {
-			    var myFile = document.createElement("li");
-			    myFile.appendChild(document.createTextNode(myModified.filename));
-			    myList.appendChild(myFile);
-		    }); 
-		    myModifiedFileList.appendChild(myList);
-		    
-		    // add the 3 sections only if they have files in them
-		    if (added.length > 0 ) {
-			    myFileList.appendChild(myAddedFileList);
-		    };
-		    if (removed.length > 0 ) {
-			    myFileList.appendChild(myRemovedFileList);
-		    };
-		    if (modified.length > 0 ) {
-			    myFileList.appendChild(myModifiedFileList);
-		    };
+		// myDiffLine is the "foo committed xy on date" line 
+		var myDiffLine = document.createElement("div");
+		myDiffLine.setAttribute("class", "diffline");
 
-		    // throw everything into our badge
-		    myBadge.appendChild(myUserRepo);
-		    myBadge.appendChild(myDiffLine);
-		    myBadge.appendChild(myCommitMessage);
-		    myBadge.appendChild(myDiffStat);
-		    myBadge.appendChild(myFileList);
+		// the image-class uses float:left to sit left of the commit-message
+		var myImage = document.createElement("img");
+		myImage.setAttribute("src","http://www.gravatar.com/avatar/" + hex_md5(myEval.commit.committer.email) + "?s=60");
+		myImage.setAttribute("class","gravatar");
+		myImage.setAttribute("alt",myUser + myRepo);
+		myDiffLine.appendChild(myImage);
+		
+		var myLink = document.createElement("a");
+		myLink.setAttribute("href","http://github.com" + myEval.commit.url);
+		myLink.setAttribute("class", "badge");
+		myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,10,"")));
+		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " committed "));
+		
+		var myDate = document.createElement("span");
+		var dateTime = parseDate(myEval.commit.committed_date);
+		myDate.setAttribute("class", "text-date");
+		myDate.setAttribute("title", dateTime);
+		myDate.appendChild(document.createTextNode(dateTime));
+		
+		myDiffLine.appendChild(myLink);
+		myDiffLine.appendChild(document.createTextNode(" about "));
+		myDiffLine.appendChild(myDate);
+		
+		// myCommitMessage is the commit-message
+		var myCommitMessage = document.createElement("div");
+		myCommitMessage.setAttribute("class", "commitmessage");
+		myCommitMessage.appendChild(document.createTextNode('"' + truncate(myEval.commit.message,100) + '"'));
+		
+		// myDiffStat shows how many files were added/removed/changed
+		var myDiffStat = document.createElement("div");
+		myDiffStat.setAttribute("class", "diffstat");
+		myDiffStat.innerHTML = "(" + added.length + " <span class='diffadded'>added</span>, " 
+		        + removed.length + " <span class='diffremoved'>removed</span>, " 
+		        + modified.length + " <span class='diffchanged'>changed</span>) ";
+		
+		// only show the "Show files" button if the commit actually added/removed/modified any files at all
+		if (added.length != "0" || removed.length != "0" || modified.length != "0") {
+		        myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>Show files</a>";
+		};
 
-		    // and then the whole badge into the container
-		    $("#gcb-container")[0].appendChild(myBadge);
+		// myFileList lists addded/remove/changed files, hidden at startup
+		var myFileList = document.createElement("div");
+		myFileList.setAttribute("class", "filelist");
+		myFileList.setAttribute("id", myUser + myRepo);
 
-		    // initially hiding the file-list and the behaviour of the Show-files button
-		    $("#" + myUser + myRepo).hide();	
-		    $("#showMoreLink" + myUser + myRepo).click(function () {
-			    $("#" + myUser + myRepo).toggle();
-			    if ($(this).text() == "Show files") {
-				    $(this).text("Hide files");
-			    } else {
-				    $(this).text("Show files");
-			    };
-			    return false;
-		    });
-		    $(".text-date").humane_dates();	// works here (still, ugly!)
-        });
-    });
+		var myAddedFileList = document.createElement("div");
+		myAddedFileList.innerHTML = "<span class='diffadded'>Added:</span>";
+		var myList = document.createElement("ul");
+		$.each(added, function(j, myAdded) {
+		        var myFile = document.createElement("li");
+		        myFile.appendChild(document.createTextNode(myAdded.filename));
+		        myList.appendChild(myFile);
+		}); 
+		myAddedFileList.appendChild(myList);
+		
+		var myRemovedFileList = document.createElement("div");
+		myRemovedFileList.innerHTML = "<span class='diffremoved'>Removed:</span>";
+		var myList = document.createElement("ul");
+		$.each(removed, function(j, myRemoved) {
+		        var myFile = document.createElement("li");
+		        myFile.appendChild(document.createTextNode(myRemoved.filename));
+		        myList.appendChild(myFile);
+		}); 
+		myRemovedFileList.appendChild(myList);
+		
+		var myModifiedFileList = document.createElement("div");
+		myModifiedFileList.innerHTML = "<span class='diffchanged'>Changed:</span>";
+		var myList = document.createElement("ul");
+		$.each(modified, function(j, myModified) {
+		        var myFile = document.createElement("li");
+		        myFile.appendChild(document.createTextNode(myModified.filename));
+		        myList.appendChild(myFile);
+		}); 
+		myModifiedFileList.appendChild(myList);
+		
+		// add the 3 sections only if they have files in them
+		if (added.length > 0 ) {
+		        myFileList.appendChild(myAddedFileList);
+		};
+		if (removed.length > 0 ) {
+		        myFileList.appendChild(myRemovedFileList);
+		};
+		if (modified.length > 0 ) {
+		        myFileList.appendChild(myModifiedFileList);
+		};
+
+		// throw everything into our badge
+		myBadge.appendChild(myUserRepo);
+		myBadge.appendChild(myDiffLine);
+		myBadge.appendChild(myCommitMessage);
+		myBadge.appendChild(myDiffStat);
+		myBadge.appendChild(myFileList);
+
+		// and then the whole badge into the container
+		$("#gcb-container")[0].appendChild(myBadge);
+
+		// initially hiding the file-list and the behaviour of the Show-files button
+		$("#" + myUser + myRepo).hide();	
+		$("#showMoreLink" + myUser + myRepo).click(function () {
+			$("#" + myUser + myRepo).toggle();
+			if ($(this).text() == "Show files") {
+			    $(this).text("Hide files");
+			} else {
+			    $(this).text("Show files");
+			};
+			return false;
+		});
+		$(".text-date").humane_dates();	// works here (still, ugly!)
+	});
+
+
+	});
 };
 
 // libs we need (mind the order!) (probably obsolete now)

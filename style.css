@@ -18,7 +18,7 @@
 	margin: 2px 0 0;
 	height: 16px;
 	padding-left: 18px;
-	color: #ff0;
+	color: black;
 	font-weight: bold;
 	background: url(img/public.png) no-repeat top left;
 }
@@ -54,6 +54,11 @@
 
 #gcb-container .text-date {
 	background-color: #fff6a9;
+}
+
+#gcb-container .followers {
+	color: gray;
+	margin-left: 10px;
 }
 
 #gcb-container .diffadded {
