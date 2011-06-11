@@ -91,13 +91,13 @@ function mainpage () {
 		    
 		    // only show the "Show files" button if the commit actually added/removed/modified any files at all
 		    if (added.length != "0" || removed.length != "0" || modified.length != "0") {
-			    myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>Show files</a>";
+			    myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href='' class='showMoreLink' id='showMoreLink_" + myUser + '_' + myRepo + "'>Show files</a>";
 		    };
 
 		    // myFileList lists addded/remove/changed files, hidden at startup
 		    var myFileList = document.createElement("div");
 		    myFileList.setAttribute("class", "filelist");
-		    myFileList.setAttribute("id", myUser + myRepo);
+		    myFileList.setAttribute("id", myUser + '_' + myRepo);
 
 		    var myAddedFileList = document.createElement("div");
 		    myAddedFileList.innerHTML = "<span class='diffadded'>Added:</span>";
@@ -151,9 +151,9 @@ function mainpage () {
 		    $("#gcb-container")[0].appendChild(myBadge);
 
 		    // initially hiding the file-list and the behaviour of the Show-files button
-		    $("#" + myUser + myRepo).hide();	
-		    $("#showMoreLink" + myUser + myRepo).click(function () {
-			    $("#" + myUser + myRepo).toggle();
+		    $("#" + myUser + '_' + myRepo).hide();	
+		    $("#showMoreLink_" + myUser + '_' + myRepo).click(function () {
+			    $("#" + myUser + '_' + myRepo).toggle();
 			    if ($(this).text() == "Show files") {
 				    $(this).text("Hide files");
 			    } else {
