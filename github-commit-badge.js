@@ -26,12 +26,12 @@ function parseDate(dateTime) {	// thanks to lachlanhardy
 
 function mainpage () {
     $.each(Badges, function(i, badgeData) {
-        var urlData = "http://github.com/api/v1/json/" + badgeData["username"] + "/" + badgeData["repo"] 
-	        + "/commit/" + ((typeof badgeData["branch"] == 'undefined') ? "master" : badgeData["branch"]) + "?callback=?";
+        var urlData = "http://github.com/api/v1/json/" + badgeData.username + "/" + badgeData.repo 
+	        + "/commit/" + ((typeof badgeData.branch == 'undefined') ? "master" : badgeData.branch) + "?callback=?";
     
         $.getJSON(urlData, function(data) {
-		    var myUser = badgeData["username"];
-		    var myRepo = badgeData["repo"];
+		    var myUser = badgeData.username;
+		    var myRepo = badgeData.repo;
 		    var myEval = eval ( data );
 		    var added = myEval.commit.added || [];
 		    var modified = myEval.commit.modified || [];
