@@ -1,119 +1,96 @@
-div#github-commit-badge-container {
+#gcb-container {
 	font-family: Verdana, arial, sans-serif;
-	font-size: 80%;
+	font-size: 12.8px;
 	width: 580px;
 }
 
-div.github-commit-badge-outline {
-	border: 1px solid gray;
-	border-color: gray;
+#gcb-container .outline {
+	border: 1px solid #808080;
 	overflow: auto;
 	margin: 8px;
 	padding: 5px;
-	padding-top: 0px;
-	background-color: #E5E5FF;
+	padding-top: 0;
+	background-color: #e5e5ff;
 }
 
-div.github-commit-badge-username {
-	border: 0px;
-	margin: 0px;
-	margin-top: 2px;
+#gcb-container .username {
+	border: 0;
+	margin: 2px 0 0;
 	height: 16px;
 	padding-left: 18px;
-	color: yellow;
+	color: #ff0;
 	font-weight: bold;
-	background-image:url(img/public.png);
-	background-repeat: no-repeat;
-	background-position: 0px 0px;
+	background: url(img/public.png) no-repeat top left;
 }
 
-div.github-commit-badge-diffline {
-	color: black;
+#gcb-container .diffline {
 	font-weight: bold;
 }
 
-div.github-commit-badge-commitmessage {
+#gcb-container .commitmessage {
 	font-style: italic;
 	padding-left: 90px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	min-height: 16px;
-	background-image:url(img/commit.png);
-	background-repeat: no-repeat;
-	background-position: 70px 0px;
+	background: url(img/commit.png) no-repeat 70px top;
 }
 
-div.github-commit-badge-diffstat {
+#gcb-container .diffstat {
 	font-weight: normal;
 	font-size: 0.9em;
 }
 
-a.github-commit-badge-badge, a.github-commit-badge-badge:visited, a.github-commit-badge-badge:link, a.github-commit-badge-badge:active {
-	color: #3399FF;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-a.github-commit-badge-badge:hover {
+#gcb-container .badge {
+	color: #3399ff;
 	text-decoration: none;
 }
 
-a.github-commit-badge-username, a.github-commit-badge-username:visited, a.github-commit-badge-username:link a.github-commit-badge-username:active {
-	color: #0080FF;
+#gcb-container .username a {
+	color: #0080ff;
 	text-decoration: none;
-	font-weight: bold;
 	font-size: 1.1em;
 }
 
-a.github-commit-badge-username:hover {
-	text-decoration: none;
-}
-
-span.github-commit-badge-text, span.github-commit-badge-text-date {
-	color: black;
+#gcb-container .text-date {
 	background-color: #fff6a9;
 }
 
-span.github-commit-badge-diffadded {
-	color: green;
-	background-color: transparent;
+#gcb-container .diffadded {
+	color: #008000;
+}
+#gcb-container .diffremoved {
+	color: #f00;
+}
+#gcb-container .diffchanged {
+	color: #800080;
 }
 
-span.github-commit-badge-diffremoved {
-	color: red;
-	background-color: transparent;
-}
-
-span.github-commit-badge-diffchanged {
-	color: purple;
-	background-color: transparent;
-}
-
-img.github-commit-badge-gravatar {
+#gcb-container .gravatar {
 	border: 1px solid #fff6a9;
-	margin: 5px;
 	float: left;
 	margin: 2px;
 }
 
-div.github-commit-badge-filelist {
+#gcb-container .filelist {
 	margin-top: 15px;
-	display: block;
 }
-
-div.github-commit-badge-filelist ul {
-	list-style-type: square;
-	list-style-position: inside;
-	margin: 0px;
+#gcb-container .filelist ul {
+	list-style: square inside;
+	margin: 0;
 }
 	
-a.github-commit-badge-showMoreLink, a.github-commit-badge-showMoreLink:visited, a.github-commit-badge-showMoreLink:link a.github-commit-badge-showMoreLink:active {
-	color: #3399FF;
-	text-decoration: underline;
-	font-weight: bold;
+#gcb-container .showMoreLink {
+	color: #3399ff;
 	font-size: 1.1em;
 }
 
-a.github-commit-badge-showMoreLink:hover {
+#gcb-container a {
+	font-weight: bold;
+}
+
+#gcb-container .username a:hover,
+#gcb-container .badge:hover,
+#gcb-container .showMoreLink:hover {
 	text-decoration: none;
 }
