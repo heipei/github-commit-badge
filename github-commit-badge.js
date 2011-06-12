@@ -1,4 +1,4 @@
-// github-commit-badge.js (c) 2008 by Johannes 'heipei' Gilger
+// github-commit-badge.js (c) 2011 by Johannes 'heipei' Gilger
 //
 // The source-code should be pretty self-explanatory. Also look at the 
 // style.css to customize the badge.
@@ -33,7 +33,6 @@ var HIDE_FILES_TXT = 'Hide files';
 var GRAVATAR_URL_PREFIX = 'http://www.gravatar.com/avatar/';
 var GRAVATAR_IMG_SIZE = 60;
 
-
 function mainpage () {
 	$.each(Badges, function(i, badgeData) {
         var branchName = ((typeof badgeData.branch == 'undefined' || badgeData.branch.length == 0) ? DEFAULT_BRANCH_NAME : badgeData.branch);
@@ -64,14 +63,13 @@ function mainpage () {
 		myLink.appendChild(document.createTextNode(myUser + "/" + badgeData["repo"]));
 		myUserRepo.appendChild(myLink);
 
-		var request_url = "https://api.github.com/repos/" + badgeData["username"] + "/" + badgeData["repo"] + "/watchers" + "?callback=?"
+		var request_url = "http://github.com/api/v2/json/repos/show/" + badgeData.username + "/" + badgeData.repo +  "?callback=?"
 		$.getJSON(request_url, function(data) {
 			followers = document.createElement("span");
 			followers.setAttribute("class", "followers");
-			followers.innerHTML = " (" + data.data.length + " following)";
+			followers.innerHTML = " (" + data.repository.forks + " forks, " + data.repository.watchers + " watchers)";
 			myUserRepo.appendChild(followers);
 		});
-
 
 		// myDiffLine is the "foo committed xy on date" line 
 		var myDiffLine = document.createElement("div");

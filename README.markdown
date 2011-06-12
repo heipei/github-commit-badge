@@ -22,20 +22,28 @@ width of the whole thing look inside the style.css and set it for the
 container-class. I know that the way to define user/repos is still somewhat
 cumbersome. The "branch" entry is optional, default is "master".
 
-	<div id="github-commit-badge-container">
+	<div id="gcb-container">
 		<script type="text/javascript">
-			var Badges = new Array();
-			Badges[0] = new Object;
-			Badges[0]["username"] = "heipei";
-			Badges[0]["repo"] = "github-commit-badge";
-			
-			Badges[1] = new Object;
-			Badges[1]["username"] = "git";
-			Badges[1]["repo"] = "git";
-			Badges[1]["branch"] = "master";
-			
+			var Badges = [
+				{
+					"username": "heipei",
+					"repo": "github-commit-badge",
+					"branch": "master"
+				},
+				{
+					"username": "git",
+					"repo": "git",
+					"branch": "master"
+				},
+				{
+					"username": "brotherbard",
+					"repo": "gitx",
+					"branch": "experimental"
+				}
+			];
 		</script>
 		<script type="text/javascript" src="github-commit-badge.js"></script>	
+		
 	</div>
 
 If you want to use it on something like WordPress you'll have to put HTML
@@ -43,9 +51,11 @@ quotes around the content of the first script-block
 
 	<script type="text/javascript">
 		<!--
-			var Badges = new Array();
+			var Badges = [
 			[...]
-			Badges[1]["branch"] = "master";
+					"branch": "experimental"
+				}
+			];
 		-->
 	</script>
 
