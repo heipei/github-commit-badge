@@ -24,16 +24,26 @@ function parseDate(dateTime) {	// thanks to lachlanhardy
 	return dateTime;
 };
 
+
+var DEFAULT_BRANCH_NAME = 'master';
+var COMMIT_MSG_MAX_LENGTH = 100;
+var COMMIT_DISPLAYED_ID_LENGTH = 10;
+var SHOW_FILES_TXT = 'Show files';
+var HIDE_FILES_TXT = 'Hide files';
+var GRAVATAR_URL_PREFIX = 'http://www.gravatar.com/avatar/';
+var GRAVATAR_IMG_SIZE = 60;
+
+
 function mainpage () {
 	$.each(Badges, function(i, badgeData) {
-
-	var urlData = "http://github.com/api/v1/json/" + badgeData["username"] + "/" + badgeData["repo"] 
-		+ "/commit/" + ((typeof badgeData["branch"] == 'undefined') ? "master" : badgeData["branch"]) + "?callback=?";
+        var branchName = ((typeof badgeData.branch == 'undefined' || badgeData.branch.length == 0) ? DEFAULT_BRANCH_NAME : badgeData.branch);
+        var urlData = "http://github.com/api/v1/json/" + badgeData.username + "/" + badgeData.repo 
+	        + "/commit/" + branchName + "?callback=?";
 
 	$.getJSON(urlData, function(data) {
-		var myUser = badgeData["username"];
-		var myRepo = badgeData["repo"];
-		var myEval = eval ( data );
+		    var myUser = badgeData.username;
+		    var myRepo = badgeData.repo;
+		    var myEval = eval (data);
 		var added = myEval.commit.added || [];
 		var modified = myEval.commit.modified || [];
 		var removed = myEval.commit.removed || [];
@@ -66,7 +76,7 @@ function mainpage () {
 
 		// the image-class uses float:left to sit left of the commit-message
 		var myImage = document.createElement("img");
-		myImage.setAttribute("src","http://www.gravatar.com/avatar/" + hex_md5(myEval.commit.committer.email) + "?s=60");
+		    myImage.setAttribute("src",GRAVATAR_URL_PREFIX + hex_md5(myEval.commit.committer.email) + "?s=" + GRAVATAR_IMG_SIZE);
 		myImage.setAttribute("class","gravatar");
 		myImage.setAttribute("alt",myUser + myRepo);
 		myDiffLine.appendChild(myImage);
@@ -74,7 +84,7 @@ function mainpage () {
 		var myLink = document.createElement("a");
 		myLink.setAttribute("href","http://github.com" + myEval.commit.url);
 		myLink.setAttribute("class", "badge");
-		myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,10,"")));
+		    myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,COMMIT_DISPLAYED_ID_LENGTH,"")));
 		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " committed "));
 		
 		var myDate = document.createElement("span");
@@ -90,7 +100,7 @@ function mainpage () {
 		// myCommitMessage is the commit-message
 		var myCommitMessage = document.createElement("div");
 		myCommitMessage.setAttribute("class", "commitmessage");
-		myCommitMessage.appendChild(document.createTextNode('"' + truncate(myEval.commit.message,100) + '"'));
+		    myCommitMessage.appendChild(document.createTextNode('"' + truncate(myEval.commit.message,COMMIT_MSG_MAX_LENGTH) + '"'));
 		
 		// myDiffStat shows how many files were added/removed/changed
 		var myDiffStat = document.createElement("div");
@@ -100,8 +110,8 @@ function mainpage () {
 		        + modified.length + " <span class='diffchanged'>changed</span>) ";
 		
 		// only show the "Show files" button if the commit actually added/removed/modified any files at all
-		if (added.length != "0" || removed.length != "0" || modified.length != "0") {
-		        myDiffStat.innerHTML = myDiffStat.innerHTML + "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>Show files</a>";
+		    if (added.length > 0 || removed.length > 0 || modified.length > 0) {
+			    myDiffStat.innerHTML += "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>" + SHOW_FILES_TXT + "</a>";
 		};
 
 		// myFileList lists addded/remove/changed files, hidden at startup
@@ -112,8 +122,9 @@ function mainpage () {
 		var myAddedFileList = document.createElement("div");
 		myAddedFileList.innerHTML = "<span class='diffadded'>Added:</span>";
 		var myList = document.createElement("ul");
+		    var myFile;
 		$.each(added, function(j, myAdded) {
-		        var myFile = document.createElement("li");
+			    myFile = document.createElement("li");
 		        myFile.appendChild(document.createTextNode(myAdded.filename));
 		        myList.appendChild(myFile);
 		}); 
@@ -121,9 +132,9 @@ function mainpage () {
 		
 		var myRemovedFileList = document.createElement("div");
 		myRemovedFileList.innerHTML = "<span class='diffremoved'>Removed:</span>";
-		var myList = document.createElement("ul");
+		    myList = document.createElement("ul");
 		$.each(removed, function(j, myRemoved) {
-		        var myFile = document.createElement("li");
+			    myFile = document.createElement("li");
 		        myFile.appendChild(document.createTextNode(myRemoved.filename));
 		        myList.appendChild(myFile);
 		}); 
@@ -131,22 +142,22 @@ function mainpage () {
 		
 		var myModifiedFileList = document.createElement("div");
 		myModifiedFileList.innerHTML = "<span class='diffchanged'>Changed:</span>";
-		var myList = document.createElement("ul");
+		    myList = document.createElement("ul");
 		$.each(modified, function(j, myModified) {
-		        var myFile = document.createElement("li");
+			    myFile = document.createElement("li");
 		        myFile.appendChild(document.createTextNode(myModified.filename));
 		        myList.appendChild(myFile);
 		}); 
 		myModifiedFileList.appendChild(myList);
 		
 		// add the 3 sections only if they have files in them
-		if (added.length > 0 ) {
+		    if (added.length > 0) {
 		        myFileList.appendChild(myAddedFileList);
 		};
-		if (removed.length > 0 ) {
+		    if (removed.length > 0) {
 		        myFileList.appendChild(myRemovedFileList);
 		};
-		if (modified.length > 0 ) {
+		    if (modified.length > 0) {
 		        myFileList.appendChild(myModifiedFileList);
 		};
 
@@ -164,10 +175,10 @@ function mainpage () {
 		$("#" + myUser + myRepo).hide();	
 		$("#showMoreLink" + myUser + myRepo).click(function () {
 			$("#" + myUser + myRepo).toggle();
-			if ($(this).text() == "Show files") {
-			    $(this).text("Hide files");
+			    if ($(this).text() == SHOW_FILES_TXT) {
+				    $(this).text(HIDE_FILES_TXT);
 			} else {
-			    $(this).text("Show files");
+				    $(this).text(SHOW_FILES_TXT);
 			};
 			return false;
 		});
