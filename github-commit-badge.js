@@ -42,8 +42,11 @@ function mainpage () {
 
 	$.getJSON(urlData, function(data) {
 		    var myUser = badgeData.username;
-		    var myRepo = badgeData.repo;
+		    var myRepo = badgeData.repo.replace(/\./g, '-');;
 		    var myEval = eval (data);
+		    var myUser = badgeData["username"];
+		    var myRepo = badgeData["repo"]
+		    var myEval = eval ( data );
 		var added = myEval.commit.added || [];
 		var modified = myEval.commit.modified || [];
 		var removed = myEval.commit.removed || [];
@@ -57,8 +60,8 @@ function mainpage () {
 		myUserRepo.setAttribute("class","username");
 
 		var myLink = document.createElement("a");
-		myLink.setAttribute("href","http://github.com/" + myUser + "/" + myRepo);
-		myLink.appendChild(document.createTextNode(myUser + "/" + myRepo));
+		    myLink.setAttribute("href","http://github.com/" + myUser + "/" + badgeData["repo"]);
+		    myLink.appendChild(document.createTextNode(myUser + "/" + badgeData["repo"]));
 		myUserRepo.appendChild(myLink);
 
 		var request_url = "https://api.github.com/repos/" + badgeData["username"] + "/" + badgeData["repo"] + "/watchers" + "?callback=?"
@@ -78,7 +81,7 @@ function mainpage () {
 		var myImage = document.createElement("img");
 		    myImage.setAttribute("src",GRAVATAR_URL_PREFIX + hex_md5(myEval.commit.committer.email) + "?s=" + GRAVATAR_IMG_SIZE);
 		myImage.setAttribute("class","gravatar");
-		myImage.setAttribute("alt",myUser + myRepo);
+		    myImage.setAttribute("alt",myUser);
 		myDiffLine.appendChild(myImage);
 		
 		var myLink = document.createElement("a");
@@ -110,19 +113,19 @@ function mainpage () {
 		        + modified.length + " <span class='diffchanged'>changed</span>) ";
 		
 		// only show the "Show files" button if the commit actually added/removed/modified any files at all
-		    if (added.length > 0 || removed.length > 0 || modified.length > 0) {
-			    myDiffStat.innerHTML += "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>" + SHOW_FILES_TXT + "</a>";
+		if (added.length > 0 || removed.length > 0 || modified.length > 0) {
+			myDiffStat.innerHTML += "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>" + SHOW_FILES_TXT + "</a>";
 		};
 
 		// myFileList lists addded/remove/changed files, hidden at startup
 		var myFileList = document.createElement("div");
 		myFileList.setAttribute("class", "filelist");
-		myFileList.setAttribute("id", myUser + myRepo);
+		    myFileList.setAttribute("id", myUser + '_' + myRepo);
 
 		var myAddedFileList = document.createElement("div");
 		myAddedFileList.innerHTML = "<span class='diffadded'>Added:</span>";
 		var myList = document.createElement("ul");
-		    var myFile;
+		var myFile;
 		$.each(added, function(j, myAdded) {
 			    myFile = document.createElement("li");
 		        myFile.appendChild(document.createTextNode(myAdded.filename));
@@ -172,11 +175,11 @@ function mainpage () {
 		$("#gcb-container")[0].appendChild(myBadge);
 
 		// initially hiding the file-list and the behaviour of the Show-files button
-		$("#" + myUser + myRepo).hide();	
-		$("#showMoreLink" + myUser + myRepo).click(function () {
-			$("#" + myUser + myRepo).toggle();
-			    if ($(this).text() == SHOW_FILES_TXT) {
-				    $(this).text(HIDE_FILES_TXT);
+		$("#" + myUser + '_' + myRepo).hide();	
+		$("#showMoreLink_" + myUser + '_' + myRepo).click(function () {
+			    $("#" + myUser + '_' + myRepo).toggle();
+			    if ($(this).text() == "Show files") {
+				    $(this).text("Hide files");
 			} else {
 				    $(this).text(SHOW_FILES_TXT);
 			};
