@@ -26,7 +26,7 @@ function parseDate(dateTime) {	// thanks to lachlanhardy
 
 
 var DEFAULT_BRANCH_NAME = 'master';
-var COMMIT_MSG_MAX_LENGTH = 100;
+var COMMIT_MSG_MAX_LENGTH = 120;
 var COMMIT_DISPLAYED_ID_LENGTH = 10;
 var SHOW_FILES_TXT = 'Show files';
 var HIDE_FILES_TXT = 'Hide files';
@@ -41,12 +41,12 @@ function mainpage () {
 	        + "/commit/" + branchName + "?callback=?";
 
 	$.getJSON(urlData, function(data) {
-		    var myUser = badgeData.username;
-		    var myRepo = badgeData.repo.replace(/\./g, '-');;
-		    var myEval = eval (data);
-		    var myUser = badgeData["username"];
-		    var myRepo = badgeData["repo"]
-		    var myEval = eval ( data );
+		var myUser = badgeData.username;
+		var myRepo = badgeData.repo.replace(/\./g, '-');;
+		var myEval = eval (data);
+		var myUser = badgeData["username"];
+		var myRepo = badgeData["repo"]
+		var myEval = eval ( data );
 		var added = myEval.commit.added || [];
 		var modified = myEval.commit.modified || [];
 		var removed = myEval.commit.removed || [];
@@ -60,8 +60,8 @@ function mainpage () {
 		myUserRepo.setAttribute("class","username");
 
 		var myLink = document.createElement("a");
-		    myLink.setAttribute("href","http://github.com/" + myUser + "/" + badgeData["repo"]);
-		    myLink.appendChild(document.createTextNode(myUser + "/" + badgeData["repo"]));
+		myLink.setAttribute("href","http://github.com/" + myUser + "/" + badgeData["repo"]);
+		myLink.appendChild(document.createTextNode(myUser + "/" + badgeData["repo"]));
 		myUserRepo.appendChild(myLink);
 
 		var request_url = "https://api.github.com/repos/" + badgeData["username"] + "/" + badgeData["repo"] + "/watchers" + "?callback=?"
@@ -79,7 +79,7 @@ function mainpage () {
 
 		// the image-class uses float:left to sit left of the commit-message
 		var myImage = document.createElement("img");
-		    myImage.setAttribute("src",GRAVATAR_URL_PREFIX + hex_md5(myEval.commit.committer.email) + "?s=" + GRAVATAR_IMG_SIZE);
+		myImage.setAttribute("src",GRAVATAR_URL_PREFIX + hex_md5(myEval.commit.committer.email) + "?s=" + GRAVATAR_IMG_SIZE);
 		myImage.setAttribute("class","gravatar");
 		    myImage.setAttribute("alt",myUser);
 		myDiffLine.appendChild(myImage);
@@ -87,7 +87,7 @@ function mainpage () {
 		var myLink = document.createElement("a");
 		myLink.setAttribute("href","http://github.com" + myEval.commit.url);
 		myLink.setAttribute("class", "badge");
-		    myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,COMMIT_DISPLAYED_ID_LENGTH,"")));
+		myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,COMMIT_DISPLAYED_ID_LENGTH,"")));
 		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " committed "));
 		
 		var myDate = document.createElement("span");
@@ -103,7 +103,7 @@ function mainpage () {
 		// myCommitMessage is the commit-message
 		var myCommitMessage = document.createElement("div");
 		myCommitMessage.setAttribute("class", "commitmessage");
-		    myCommitMessage.appendChild(document.createTextNode('"' + truncate(myEval.commit.message,COMMIT_MSG_MAX_LENGTH) + '"'));
+		myCommitMessage.appendChild(document.createTextNode('"' + truncate(myEval.commit.message.replace(/\n.*/g, "").replace(/\r.*/g, ""),COMMIT_MSG_MAX_LENGTH) + '"'));
 		
 		// myDiffStat shows how many files were added/removed/changed
 		var myDiffStat = document.createElement("div");
@@ -114,7 +114,7 @@ function mainpage () {
 		
 		// only show the "Show files" button if the commit actually added/removed/modified any files at all
 		if (added.length > 0 || removed.length > 0 || modified.length > 0) {
-			myDiffStat.innerHTML += "<a href='' class='showMoreLink' id='showMoreLink" + myUser + myRepo + "'>" + SHOW_FILES_TXT + "</a>";
+			myDiffStat.innerHTML += "<a href='' class='showMoreLink' id='showMoreLink_" + myUser + "_" + myRepo + "'>" + SHOW_FILES_TXT + "</a>";
 		};
 
 		// myFileList lists addded/remove/changed files, hidden at startup
