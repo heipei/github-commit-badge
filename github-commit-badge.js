@@ -79,30 +79,30 @@ function mainpage () {
 		var myImage = document.createElement("img");
 		myImage.setAttribute("src",GRAVATAR_URL_PREFIX + hex_md5(myEval.commit.committer.email) + "?s=" + GRAVATAR_IMG_SIZE);
 		myImage.setAttribute("class","gravatar");
-		    myImage.setAttribute("alt",myUser);
+		myImage.setAttribute("alt",myUser);
 		myDiffLine.appendChild(myImage);
-		
+
 		var myLink = document.createElement("a");
 		myLink.setAttribute("href","http://github.com" + myEval.commit.url);
 		myLink.setAttribute("class", "badge");
 		myLink.appendChild(document.createTextNode(" " + truncate(myEval.commit.id,COMMIT_DISPLAYED_ID_LENGTH,"")));
 		myDiffLine.appendChild(document.createTextNode(myEval.commit.committer.name + " committed "));
-		
+
 		var myDate = document.createElement("span");
 		var dateTime = parseDate(myEval.commit.committed_date);
 		myDate.setAttribute("class", "text-date");
 		myDate.setAttribute("title", dateTime);
 		myDate.appendChild(document.createTextNode(dateTime));
-		
+
 		myDiffLine.appendChild(myLink);
 		myDiffLine.appendChild(document.createTextNode(" about "));
 		myDiffLine.appendChild(myDate);
-		
+
 		// myCommitMessage is the commit-message
 		var myCommitMessage = document.createElement("div");
 		myCommitMessage.setAttribute("class", "commitmessage");
 		myCommitMessage.appendChild(document.createTextNode('"' + truncate(myEval.commit.message.replace(/\n.*/g, "").replace(/\r.*/g, ""),COMMIT_MSG_MAX_LENGTH) + '"'));
-		
+
 		// myDiffStat shows how many files were added/removed/changed
 		var myDiffStat = document.createElement("div");
 		myDiffStat.setAttribute("class", "diffstat");
@@ -118,48 +118,48 @@ function mainpage () {
 		// myFileList lists addded/remove/changed files, hidden at startup
 		var myFileList = document.createElement("div");
 		myFileList.setAttribute("class", "filelist");
-		    myFileList.setAttribute("id", myUser + '_' + myRepo);
+		myFileList.setAttribute("id", myUser + '_' + myRepo);
 
 		var myAddedFileList = document.createElement("div");
 		myAddedFileList.innerHTML = "<span class='diffadded'>Added:</span>";
 		var myList = document.createElement("ul");
 		var myFile;
 		$.each(added, function(j, myAdded) {
-			    myFile = document.createElement("li");
-		        myFile.appendChild(document.createTextNode(myAdded.filename));
-		        myList.appendChild(myFile);
-		}); 
+			myFile = document.createElement("li");
+			myFile.appendChild(document.createTextNode(myAdded.filename));
+			myList.appendChild(myFile);
+		});
 		myAddedFileList.appendChild(myList);
-		
+
 		var myRemovedFileList = document.createElement("div");
 		myRemovedFileList.innerHTML = "<span class='diffremoved'>Removed:</span>";
-		    myList = document.createElement("ul");
+		myList = document.createElement("ul");
 		$.each(removed, function(j, myRemoved) {
-			    myFile = document.createElement("li");
-		        myFile.appendChild(document.createTextNode(myRemoved.filename));
-		        myList.appendChild(myFile);
-		}); 
+			myFile = document.createElement("li");
+			myFile.appendChild(document.createTextNode(myRemoved.filename));
+			myList.appendChild(myFile);
+		});
 		myRemovedFileList.appendChild(myList);
-		
+
 		var myModifiedFileList = document.createElement("div");
 		myModifiedFileList.innerHTML = "<span class='diffchanged'>Changed:</span>";
-		    myList = document.createElement("ul");
+		myList = document.createElement("ul");
 		$.each(modified, function(j, myModified) {
-			    myFile = document.createElement("li");
-		        myFile.appendChild(document.createTextNode(myModified.filename));
-		        myList.appendChild(myFile);
-		}); 
+			myFile = document.createElement("li");
+			myFile.appendChild(document.createTextNode(myModified.filename));
+			myList.appendChild(myFile);
+		});
 		myModifiedFileList.appendChild(myList);
 		
 		// add the 3 sections only if they have files in them
-		    if (added.length > 0) {
-		        myFileList.appendChild(myAddedFileList);
+		if (added.length > 0) {
+			myFileList.appendChild(myAddedFileList);
 		};
-		    if (removed.length > 0) {
-		        myFileList.appendChild(myRemovedFileList);
+		if (removed.length > 0) {
+			myFileList.appendChild(myRemovedFileList);
 		};
-		    if (modified.length > 0) {
-		        myFileList.appendChild(myModifiedFileList);
+		if (modified.length > 0) {
+			myFileList.appendChild(myModifiedFileList);
 		};
 
 		// throw everything into our badge
@@ -175,12 +175,12 @@ function mainpage () {
 		// initially hiding the file-list and the behaviour of the Show-files button
 		$("#" + myUser + '_' + myRepo).hide();	
 		$("#showMoreLink_" + myUser + '_' + myRepo).click(function () {
-			    $("#" + myUser + '_' + myRepo).toggle();
-			    if ($(this).text() == "Show files") {
-				    $(this).text("Hide files");
-			} else {
-				    $(this).text(SHOW_FILES_TXT);
-			};
+				$("#" + myUser + '_' + myRepo).toggle();
+				if ($(this).text() == "Show files") {
+					$(this).text("Hide files");
+				} else {
+					$(this).text(SHOW_FILES_TXT);
+				};
 			return false;
 		});
 		$(".text-date").humane_dates();	// works here (still, ugly!)
@@ -211,8 +211,8 @@ for (var i=0; i < myLibs.length; ++i) {
 		myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".js");
 	};
 	if (i == myLibs.length-1) {	// only load our main function after the lib has finished loading
-		 //myScript.setAttribute("onload","mainpage();");
-		 document.getElementsByTagName("body")[0].setAttribute("onload","mainpage();");
+		//myScript.setAttribute("onload","mainpage();");
+		document.getElementsByTagName("body")[0].setAttribute("onload","mainpage();");
 	};
 	document.getElementById("gcb-container").appendChild(myScript);
 };
