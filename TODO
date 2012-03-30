@@ -7,4 +7,4 @@
 - Make things configurable (in github-commit-badge.js), like: dateformat, commit-message-length, gravatar size
 - Rewrite the whole thing in jQuery to make it prettier and more portable
 
-- Request repo-info first and then use master_branch (http://developer.github.com/v3/repos/)
+- Request repo-info first and then use master_branch (http://developer.github.com/v3/repos/) if no branch configured
