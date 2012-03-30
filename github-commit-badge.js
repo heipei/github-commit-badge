@@ -20,14 +20,15 @@ function parseDate(dateTime) {	// thanks to lachlanhardy
 	if (ourTime > 24) {
 		ourTime = ourTime - 24;
 	};
-	dateTime = dateTime.replace("T" + theirTime, "T" + ourTime);
+	//dateTime = dateTime.replace("T" + theirTime, "T" + ourTime);
+	dateTime = dateTime.replace(/T.*/, "");
 	return dateTime;
 };
 
 
 var DEFAULT_BRANCH_NAME = 'master';
 var COMMIT_MSG_MAX_LENGTH = 120;
-var COMMIT_DISPLAYED_ID_LENGTH = 10;
+var COMMIT_DISPLAYED_ID_LENGTH = 8;
 var SHOW_FILES_TXT = 'Show files';
 var HIDE_FILES_TXT = 'Hide files';
 var GRAVATAR_URL_PREFIX = 'http://www.gravatar.com/avatar/';
@@ -65,13 +66,12 @@ function mainpage () {
 		var myUserRepo = document.createElement("div");
 		myUserRepo.setAttribute("class","username");
 
-		var myLink = document.createElement("a");
-		myLink.setAttribute("href","http://github.com/" + myUser + "/" + badgeData["repo"]);
-		myLink.appendChild(document.createTextNode(myUser + "/" + badgeData["repo"]));
-		myUserRepo.appendChild(myLink);
-
 		var request_url = "https://api.github.com/repos/" + badgeData.username + "/" + badgeData.repo +  "?callback=?"
 		$.getJSON(request_url, function(data) {
+			var myLink = document.createElement("a");
+			myLink.setAttribute("href", data.data.html_url);
+			myLink.appendChild(document.createTextNode(myUser + "/" + badgeData["repo"]));
+			myUserRepo.appendChild(myLink);
 			followers = document.createElement("span");
 			followers.setAttribute("class", "followers");
 			followers.innerHTML = " (" + data.data.forks + " forks, " + data.data.watchers + " watchers)";
@@ -84,7 +84,8 @@ function mainpage () {
 
 		// the image-class uses float:left to sit left of the commit-message
 		var myImage = document.createElement("img");
-		myImage.setAttribute("src",GRAVATAR_URL_PREFIX + data.data.committer.gravatar_id + "?s=" + GRAVATAR_IMG_SIZE);
+		//myImage.setAttribute("src",GRAVATAR_URL_PREFIX + data.data.committer.gravatar_id + "?s=" + GRAVATAR_IMG_SIZE);
+		myImage.setAttribute("src",data.data.committer.avatar_url);
 		myImage.setAttribute("class","gravatar");
 		myImage.setAttribute("alt",myUser);
 		myDiffLine.appendChild(myImage);
@@ -92,18 +93,27 @@ function mainpage () {
 		var myLink = document.createElement("a");
 		myLink.setAttribute("href", data.data.commit.url);
 		myLink.setAttribute("class", "badge");
-		myLink.appendChild(document.createTextNode(" " + truncate(data.data.sha,COMMIT_DISPLAYED_ID_LENGTH,"")));
-		myDiffLine.appendChild(document.createTextNode(data.data.commit.committer.name + " committed "));
+		myLink.appendChild(document.createTextNode(" " + truncate(data.data.sha,COMMIT_DISPLAYED_ID_LENGTH,"") + ""));
+		myDiffLine.appendChild(myLink);
 
 		var myDate = document.createElement("span");
 		var dateTime = parseDate(data.data.commit.committer.date);
 		myDate.setAttribute("class", "text-date");
 		myDate.setAttribute("title", dateTime);
-		myDate.appendChild(document.createTextNode(dateTime));
-
-		myDiffLine.appendChild(myLink);
-		myDiffLine.appendChild(document.createTextNode(" about "));
+		myDate.appendChild(document.createTextNode(" " + dateTime));
 		myDiffLine.appendChild(myDate);
+
+		var myCommitter = document.createElement("span");
+		myCommitter.setAttribute("class", "committer");
+		myCommitter.appendChild(document.createTextNode(" " + data.data.commit.committer.name));
+		myDiffLine.appendChild(myCommitter);
+
+		var myEmail = document.createElement("span");
+		myEmail.setAttribute("class", "email");
+		myEmail.appendChild(document.createTextNode(" <" + data.data.commit.committer.email + ">"));
+		myDiffLine.appendChild(myEmail);
+
+
 
 		// myCommitMessage is the commit-message
 		var myCommitMessage = document.createElement("div");
@@ -154,6 +164,10 @@ function mainpage () {
 		$.each(modified, function(j, myModified) {
 			myFile = document.createElement("li");
 			myFile.appendChild(document.createTextNode(myModified.filename));
+			changedLines = document.createElement("span");
+			changedLines.setAttribute("class","diffchanged");
+			changedLines.innerHTML = " (" + myModified.changes + ")";
+			myFile.appendChild(changedLines);
 			myList.appendChild(myFile);
 		});
 		myModifiedFileList.appendChild(myList);
@@ -190,7 +204,7 @@ function mainpage () {
 				};
 			return false;
 		});
-		$(".text-date").humane_dates();	// works here (still, ugly!)
+		//$(".text-date").humane_dates();	// works here (still, ugly!)
 	});
 
 

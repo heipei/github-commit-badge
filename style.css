@@ -28,7 +28,8 @@
 }
 
 #gcb-container .diffline {
-	font-weight: bold;
+	font-weight: normal;
+	font-size: 14px;
 }
 
 #gcb-container .commitmessage {
@@ -46,8 +47,9 @@
 }
 
 #gcb-container .badge {
-	color: #4183C4;
-	text-decoration: none;
+	color: gray;
+	text-decoration: underline;
+	font-weight: normal;
 }
 
 #gcb-container .username a {
@@ -57,12 +59,24 @@
 }
 
 #gcb-container .text-date {
-	background-color: #fff6a9;
+	/*background-color: #fff6a9;*/
+	color: #C44040;
+}
+
+#gcb-container .committer {
+	color: #43651F;
+}
+
+#gcb-container .email {
+	color: #69A031;
+	font-weight: normal;
 }
 
 #gcb-container .followers {
 	color: gray;
 	margin-left: 5px;
+	float:right;
+	font-weight: normal;
 }
 
 #gcb-container .diffadded {
@@ -79,6 +93,8 @@
 	border: 1px solid #fff6a9;
 	float: left;
 	margin: 2px 5px 2px 2px;
+	width: 60px;
+	width: 60px;
 }
 
 #gcb-container .filelist {
