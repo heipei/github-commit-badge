@@ -19,11 +19,10 @@
 
 #gcb-container .username {
 	border: 0;
-	margin: 2px 0px 3px 0px;
+	margin: 1px 0px 4px 0px;
 	height: 16px;
 	padding-left: 18px;
-	color: #333;
-	font-weight: bold;
+	color: gray;
 	background: url(img/public.png) no-repeat top left;
 }
 
@@ -73,7 +72,6 @@
 }
 
 #gcb-container .followers {
-	color: gray;
 	margin-left: 5px;
 	float:right;
 	font-weight: normal;
