@@ -7,7 +7,7 @@ commit) for a GitHub project on your website. It looks like this:
 <div><img src="http://heipei.github.com/github-commit-badge/github-commit-badge.png" alt="GitHub commit badge"></div>
 
 It is implemented in JavaScript, meaning that it is completely client-based.
-Since this is the first time I've actually used JavaScript, the first time I
+Since this is the first time I've actually used JavaScript and the first time I
 actually wrote a CSS from scratch expect things to be buggy.
 
 That said, I'd be happy about ideas/patches. Look at the BUGS file or the 
@@ -68,18 +68,18 @@ Website
 FAQ
 ===
 
+* Q: How does it work? Where does the data come from?
+* A: For each repository, the code will issue to API requests to GitHub to fetch the information.
+
 * Q: Why is it called a badge when it's really more of a banner?
 * A: Because I noticed that calling it banner increases the risk of it being
   filtered by AdBlock etc.
 
-* Q: Why does the JavaScript code so scary and inconsistent?
-* A: Because I don't know a thing about JavaScript and the million things that can
-  and do fail. That's why there might be some workarounds ;)
+* Q: The JavaScript code is not very pretty, why?
+* A: This was my first JavaScript project, and I've only been getting to know it.
 
 * Q: What libs are used (and what for)?
-* A: jQuery for jQuery.getJSON and jQuery.each, datejs for Date.parse and md5 for
-  md5\_hex (for the gravatar). Also I learned a lot from DrNic's GitHub-badges
-  [http://github.com/drnic/github-badges/tree](github-badges).
+* A: jQuery for jQuery.getJSON and jQuery.each, datejs for Date.parse.
 	
 Author
 ======
