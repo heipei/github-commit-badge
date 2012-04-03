@@ -30,16 +30,15 @@ function parseDate(dateTime) {	// thanks to lachlanhardy
 var DEFAULT_BRANCH_NAME = 'master';
 var COMMIT_MSG_MAX_LENGTH = 120;
 var COMMIT_DISPLAYED_ID_LENGTH = 8;
-var SHOW_FILES_TXT = 'Show files';
-var HIDE_FILES_TXT = 'Hide files';
+var SHOW_FILES_TXT = 'Show more';
+var HIDE_FILES_TXT = 'Show less';
 var GRAVATAR_URL_PREFIX = 'http://www.gravatar.com/avatar/';
 var GRAVATAR_IMG_SIZE = 60;
 
 function mainpage () {
 	$.each(Badges, function(i, badgeData) {
         var branchName = ((typeof badgeData.branch == 'undefined' || badgeData.branch.length == 0) ? DEFAULT_BRANCH_NAME : badgeData.branch);
-        var urlData = "https://api.github.com/repos/" + badgeData.username + "/" + badgeData.repo 
-	        + "/commits/" + branchName + "?callback=?";
+        var urlData = "https://api.github.com/repos/" + badgeData.username + "/" + badgeData.repo + "/commits/" + branchName + "?callback=?";
 
 	$.getJSON(urlData, function(data) {
 		var myUser = badgeData.username;
@@ -61,15 +60,12 @@ function mainpage () {
 		
 		// outline-class is used for the badge with the border
 		var myBadge = $("<div/>", { id: myUser + "_" + myRepo, class: "outline" });
-		
-		// and then the whole badge into the container
 		$("#gcb-container").append(myBadge);
 
 		// the username/repo
 		$("<div/>", { class: "username"}).appendTo(myBadge);
 
-		var request_url = "https://api.github.com/repos/" + badgeData.username + "/" + badgeData.repo +  "?callback=?"
-		$.getJSON(request_url, function(data) {
+		$.getJSON("https://api.github.com/repos/" + badgeData.username + "/" + badgeData.repo +  "?callback=?", function(data) {
 			var myLink = $("<a/>", { href: data.data.html_url, text: myUser + "/" + badgeData["repo"] });
 			var followers = $("<span/>", { 
 				class: "followers", 
@@ -78,26 +74,20 @@ function mainpage () {
 			$("#"+myUser+"_"+myRepo+ " > .username").append(myLink).append(" (branch: "+branchName + ")").append(followers);
 		});
 
-		// myDiffLine is the "foo committed xy on date" line 
+		// Create the content: Avatar, Date, Name, E-Mail, Message
 		var myDiffLine = $("<div/>", { class: "diffline" }).appendTo(myBadge);
-
-		// the image-class uses float:left to sit left of the commit-message
 		$("<img/>", { src: data.data.committer.avatar_url, class: 'gravatar', alt: myUser }).appendTo(myDiffLine);
-
 		$("<a/>", { href: "https://github.com/"+myUser+"/"+myRepo+"/commit/"+data.data.sha, class: "badge",
 			text: truncate(data.data.sha,COMMIT_DISPLAYED_ID_LENGTH,"")
 		}).appendTo(myDiffLine);
-
 		$("<span/>", { class: "text-date", text: " " + parseDate(data.data.commit.committer.date)
 		}).appendTo(myDiffLine);
-
 		$("<span/>", { class: "committer", text: " " + data.data.commit.committer.name }).appendTo(myDiffLine);
-
 		$("<span/>", { class: "email", text: " <" + data.data.commit.committer.email + ">" }).appendTo(myDiffLine);
-
 		$("<div/>", { class: "commitmessage",
-			text: '"' + truncate(data.data.commit.message.replace(/\n.*/g, "").replace(/\r.*/g, ""),COMMIT_MSG_MAX_LENGTH) + '"'
+			text: truncate(data.data.commit.message.replace(/\n.*/g, "").replace(/\r.*/g, ""),COMMIT_MSG_MAX_LENGTH)
 		}).appendTo(myBadge);
+		$("<div/>", { class: "commitmessagelong", text: data.data.commit.message }).appendTo(myBadge).hide();
 
 		// myDiffStat shows how many files were added/removed/changed
 		var myDiffStat = $("<div/>", { class: "diffstat", html:
@@ -107,12 +97,10 @@ function mainpage () {
 		myBadge.append(myDiffStat);
 		
 		// only show the "Show files" button if the commit actually added/removed/modified any files at all
-		if (data.data.stats.total > 0) {
-			myDiffStat.append("<a href='' class='showMoreLink' id='showMoreLink_" + myUser + "_" + myRepo + "'>" + SHOW_FILES_TXT + "</a>");
-		};
+		myDiffStat.append("<a href='' class='showMoreLink' id='showMoreLink_" + myUser + "_" + myRepo + "'>" + SHOW_FILES_TXT + "</a>");
 	
 		// myFileList lists addded/remove/changed files, hidden at startup
-		$("<div/>", { class: "filelist", id: "files_" + myUser + '_' + myRepo }).appendTo(myBadge);
+		$("<div/>", { class: "filelist", id: "files_" + myUser + '_' + myRepo }).appendTo(myBadge).hide();
 		
 		if (added.length > 0) {
 			myList = $("<ul/>");
@@ -150,12 +138,13 @@ function mainpage () {
 			fileList.append(myList);
 		}
 
-		// initially hiding the file-list and the behaviour of the Show-files button
-		$("#files_" + myUser + '_' + myRepo).hide();	
+		// Behaviour of the show-more/show-less link 
 		$("#showMoreLink_" + myUser + '_' + myRepo).click(function () {
 				$("#files_" + myUser + '_' + myRepo).toggle();
-				if ($(this).text() == "Show files") {
-					$(this).text("Hide files");
+				$("#" + myUser + '_' + myRepo + " > .commitmessagelong").toggle();
+				$("#" + myUser + '_' + myRepo + " > .commitmessage").toggle();
+				if ($(this).text() == SHOW_FILES_TXT) {
+					$(this).text(HIDE_FILES_TXT);
 				} else {
 					$(this).text(SHOW_FILES_TXT);
 				};

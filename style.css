@@ -31,13 +31,17 @@
 	font-size: 14px;
 }
 
-#gcb-container .commitmessage {
+#gcb-container .commitmessage, #gcb-container .commitmessagelong {
 	font-style: italic;
 	padding-left: 90px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	min-height: 16px;
 	background: url(img/commit.png) no-repeat 70px top;
+}
+
+#gcb-container .commitmessagelong {
+	white-space: pre;
 }
 
 #gcb-container .diffstat {
