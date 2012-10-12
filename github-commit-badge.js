@@ -1,3 +1,4 @@
+// vim:ft=javascript:et:ts=2:sw=2
 // github-commit-badge.js (c) 2012 by Johannes 'heipei' Gilger
 //
 // The source-code should be pretty self-explanatory. Also look at the 
@@ -11,20 +12,11 @@ function truncate(string, length, truncation) {
 		string.slice(0, length - truncation.length) + truncation : string;
 };
 
-function parseDate(dateTime) {	// thanks to lachlanhardy
-	var timeZone = 1;	// TODO: This doesn't really work
-
-	dateTime = dateTime.substring(0,19) + "Z";
-	var theirTime = dateTime.substring(11,13);
-	var ourTime = parseInt(theirTime) + 7 + timeZone;
-	if (ourTime > 24) {
-		ourTime = ourTime - 24;
-	};
-	//dateTime = dateTime.replace("T" + theirTime, "T" + ourTime);
+// shorten date
+function parseDate(dateTime) {
 	dateTime = dateTime.replace(/T.*/, "");
 	return dateTime;
 };
-
 
 // nuts and bolts for adjustment
 var DEFAULT_BRANCH_NAME = 'master';
@@ -35,159 +27,112 @@ var HIDE_FILES_TXT = 'Show less';
 var GRAVATAR_URL_PREFIX = 'http://www.gravatar.com/avatar/';
 var GRAVATAR_IMG_SIZE = 60;
 
+// parse info about the commit
+function parse_commit(data,myUser,myRepo,branchName) {
+  var badge = $("#" + myUser + "_" + myRepo);
+  var added = [];
+  var modified = [];
+  var removed = [];
+
+  // Split files into added/removed/modified
+  $.each(data.data.files, function(i,v) {
+    if (v.status == "modified") {
+      modified.push(v);
+    } else if (v.status == "added") {
+      added.push(v);
+    } else {
+      removed.push(v);
+    }
+  })
+  
+  $("div.username", badge).append(" (branch: "+branchName + ")");
+  $("div.diffline img.gravatar", badge).attr({"src": data.data.committer.avatar_url, alt: myUser });
+  $("a.badge", badge).attr({href: "https://github.com/"+myUser+"/"+myRepo+"/commit/"+data.data.sha, text: truncate(data.data.sha,COMMIT_DISPLAYED_ID_LENGTH,"")});
+
+  $("span.text-date", badge).text(" " + parseDate(data.data.commit.committer.date));
+  $("span.committer", badge).text(data.data.commit.committer.name);
+  $("span.email", badge).text(" <" + data.data.commit.committer.email + ">");
+  $("div.commitmessage", badge).text(truncate(data.data.commit.message.replace(/\n.*/g, "").replace(/\r.*/g, ""),COMMIT_MSG_MAX_LENGTH));
+  $("div.commitmessagelong", badge).text(data.data.commit.message).hide();
+
+  $("div.diffstat a.showMoreLink", badge).attr("id", "showMoreLink_" + myUser + "_" + myRepo);
+
+  $("div.diffstat span.diffadded", badge).before(added.length);
+  $("div.diffstat span.diffremoved", badge).before(removed.length);
+  $("div.diffstat span.diffmodified", badge).before(modified.length);
+  
+  $("div.filelist", badge).attr({id: "files_" + myUser + '_' + myRepo });
+  
+  if (added.length > 0) {
+    $("div.diffadded span.diffadded", badge).show();
+    $.each(added, function(j, myAdded) {
+      $("div.diffadded ul", badge).append($("<li/>").text(myAdded.filename).append($("<span class='diffadded'/>").text(" ("+myAdded.changes+")")));
+    });
+  }
+
+  if (removed.length > 0) {
+    $("div.diffremoved span.diffremoved", badge).show();
+    $.each(removed, function(j, myRemoved) {
+      $("div.diffremoved ul", badge).append($("<li/>").text(myRemoved.filename).append($("<span class='diffremoved'/>").text(" ("+myRemoved.changes+")")));
+    });
+  }
+
+  if (modified.length > 0) {
+    $("div.diffmodified span.diffmodified", badge).show();
+    $.each(modified, function(j, myModified) {
+      $("div.diffmodified ul", badge).append($("<li/>").text(myModified.filename).append($("<span class='diffmodified'/>").text(" ("+myModified.changes+")")));
+    });
+  }
+
+  // Behaviour of the show-more/show-less link 
+  $("#showMoreLink_" + myUser + '_' + myRepo).click(function () {
+      $("#files_" + myUser + '_' + myRepo).toggle();
+      $("#" + myUser + '_' + myRepo + " > .commitmessagelong").toggle();
+      $("#" + myUser + '_' + myRepo + " > .commitmessage").toggle();
+      if ($(this).text() == SHOW_FILES_TXT) {
+        $(this).text(HIDE_FILES_TXT);
+      } else {
+        $(this).text(SHOW_FILES_TXT);
+      };
+    return false;
+  });
+};
+
+function parse_repo(data,myUser,myRepo) {
+      var badge = $("#" + myUser + "_" + myRepo);
+      $("div.username a", badge).text(myUser + "/" + myRepo).attr("href", data.data.html_url);
+      $("span.followers", badge).text("(" + data.data.forks + " forks, " + data.data.watchers + " starred)"); 
+};
+
 function mainpage () {
-	$.each(Badges, function(i, badgeData) {
-        var branchName = ((typeof badgeData.branch == 'undefined' || badgeData.branch.length == 0) ? DEFAULT_BRANCH_NAME : badgeData.branch);
-        var urlData = "https://api.github.com/repos/" + badgeData.username + "/" + badgeData.repo + "/commits/" + branchName + "?callback=?";
-
-	$.getJSON(urlData, function(data) {
-		var myUser = badgeData.username;
-		var myRepo = badgeData.repo.replace(/\./g, '-');;
-		var added = [];
-		var modified = [];
-		var removed = [];
-
-		// Split files into added/removed/modified
-		$.each(data.data.files, function(i,v) {
-			if (v.status == "modified") {
-				modified.push(v);
-			} else if (v.stats == "added") {
-				added.push(v);
-			} else {
-				removed.push(v);
-			}
-		})
-		
-		// outline-class is used for the badge with the border
-		var myBadge = $("<div/>", { id: myUser + "_" + myRepo, class: "outline" });
-		$("#gcb-container").append(myBadge);
-
-		// the username/repo
-		$("<div/>", { class: "username"}).appendTo(myBadge);
-
-		$.getJSON("https://api.github.com/repos/" + badgeData.username + "/" + badgeData.repo +  "?callback=?", function(data) {
-			var myLink = $("<a/>", { href: data.data.html_url, text: myUser + "/" + badgeData["repo"] });
-			var followers = $("<span/>", { 
-				class: "followers", 
-				text: " (" + data.data.forks + " forks, " + data.data.watchers + " watchers)" 
-			});
-			$("#"+myUser+"_"+myRepo+ " > .username").append(myLink).append(" (branch: "+branchName + ")").append(followers);
+  // load the badge template
+	$("#gcb-container").load("badge.html", function() {
+		$.each(Badges, function(i, badgeData) {
+			var badge = $("#gcb-template").clone().appendTo("#gcb-container");
+			$(badge).attr("id", badgeData.username + "_" + badgeData.repo.replace(/\./g, '-'));
+			$(badge).appendTo("#gcb-container").show();
 		});
+	});
 
-		// Create the content: Avatar, Date, Name, E-Mail, Message
-		var myDiffLine = $("<div/>", { class: "diffline" }).appendTo(myBadge);
-		$("<img/>", { src: data.data.committer.avatar_url, class: 'gravatar', alt: myUser }).appendTo(myDiffLine);
-		$("<a/>", { href: "https://github.com/"+myUser+"/"+myRepo+"/commit/"+data.data.sha, class: "badge",
-			text: truncate(data.data.sha,COMMIT_DISPLAYED_ID_LENGTH,"")
-		}).appendTo(myDiffLine);
-		$("<span/>", { class: "text-date", text: " " + parseDate(data.data.commit.committer.date)
-		}).appendTo(myDiffLine);
-		$("<span/>", { class: "committer", text: " " + data.data.commit.committer.name }).appendTo(myDiffLine);
-		$("<span/>", { class: "email", text: " <" + data.data.commit.committer.email + ">" }).appendTo(myDiffLine);
-		$("<div/>", { class: "commitmessage",
-			text: truncate(data.data.commit.message.replace(/\n.*/g, "").replace(/\r.*/g, ""),COMMIT_MSG_MAX_LENGTH)
-		}).appendTo(myBadge);
-		$("<div/>", { class: "commitmessagelong", text: data.data.commit.message }).appendTo(myBadge).hide();
-
-		// myDiffStat shows how many files were added/removed/changed
-		var myDiffStat = $("<div/>", { class: "diffstat", html:
-			"(Files: " + added.length + " <span class='diffadded'>added</span>, " 
-		        + removed.length + " <span class='diffremoved'>removed</span>, " 
-			+ modified.length + " <span class='diffchanged'>changed</span>) " });
-		myBadge.append(myDiffStat);
-		
-		// only show the "Show files" button if the commit actually added/removed/modified any files at all
-		myDiffStat.append("<a href='' class='showMoreLink' id='showMoreLink_" + myUser + "_" + myRepo + "'>" + SHOW_FILES_TXT + "</a>");
 	
-		// myFileList lists addded/remove/changed files, hidden at startup
-		$("<div/>", { class: "filelist", id: "files_" + myUser + '_' + myRepo }).appendTo(myBadge).hide();
-		
-		if (added.length > 0) {
-			myList = $("<ul/>");
-			$.each(added, function(j, myAdded) {
-				$("<li/>", { text: myAdded.filename }).append(
-					$("<span/>", { class: "diffadded", text: " (" + myAdded.changes + ")"})
-				).appendTo(myList);
-			});
-			fileList = $("<div/>", { id: "myAddedFileList" }).appendTo($("#files_"+myUser+"_"+myRepo));
-			fileList.append($("<span/>", { class: 'diffadded', text: "Added" }));
-			fileList.append(myList);
-		}
+	$.each(Badges, function(i, badgeData) {
+    var branchName = ((typeof badgeData.branch == 'undefined' || badgeData.branch.length == 0) ? DEFAULT_BRANCH_NAME : badgeData.branch);
+    var urlData = "https://api.github.com/repos/" + badgeData.username + "/" + badgeData.repo;
 
-		if (removed.length > 0) {
-			myList = $("<ul/>");
-			$.each(removed, function(j, myRemoved) {
-				$("<li/>", { text: myRemoved.filename }).append(
-					$("<span/>", { class: "diffremoved", text: " (" + myRemoved.changes + ")"})
-				).appendTo(myList);
-			});
-			fileList = $("<div/>", { id: "myRemovedFileList" }).appendTo($("#files_"+myUser+"_"+myRepo));
-			fileList.append($("<span/>", { class: 'diffremoved', text: "Removed" }));
-			fileList.append(myList);
-		}
+    var myUser = badgeData.username;
+    var myRepo = badgeData.repo.replace(/\./g, '-');
 
-		if (modified.length > 0) {
-			myList = $("<ul/>");
-			$.each(modified, function(j, myModified) {
-				$("<li/>", { text: myModified.filename }).append(
-					$("<span/>", { class: "diffchanged", text: " (" + myModified.changes + ")"})
-				).appendTo(myList);
-			});
-			fileList = $("<div/>", { id: "myModifiedFileList" }).appendTo($("#files_"+myUser+"_"+myRepo));
-			fileList.append($("<span/>", { class: 'diffchanged', text: "Changed" }));
-			fileList.append(myList);
-		}
-
-		// Behaviour of the show-more/show-less link 
-		$("#showMoreLink_" + myUser + '_' + myRepo).click(function () {
-				$("#files_" + myUser + '_' + myRepo).toggle();
-				$("#" + myUser + '_' + myRepo + " > .commitmessagelong").toggle();
-				$("#" + myUser + '_' + myRepo + " > .commitmessage").toggle();
-				if ($(this).text() == SHOW_FILES_TXT) {
-					$(this).text(HIDE_FILES_TXT);
-				} else {
-					$(this).text(SHOW_FILES_TXT);
-				};
-			return false;
-		});
-		//$(".text-date").humane_dates();	// works here (still, ugly!)
-	});
-
-
+    $.getJSON(urlData + "/commits/" + branchName + "?callback=?", function(data) {
+      parse_commit(data,myUser,myRepo,branchName);
+    });
+    $.getJSON(urlData + "?callback=?", function(data) {
+      parse_repo(data,myUser,myRepo);
+    });
+    
 	});
 };
 
-// libs we need (mind the order!) (probably obsolete now)
-var myLibs = ["everything"];
-
-// Getting the path/url by looking at our main .js already included in the web-page
-var myScriptsDefs = document.getElementsByTagName("script");
-for (var i=0; i < myScriptsDefs.length; i++) {
-	if (myScriptsDefs[i].src && myScriptsDefs[i].src.match(/github-commit-badge.js/)) {
-		this.path = myScriptsDefs[i].src.replace(/github-commit-badge.js/, '');
-	};
-};
-
-// Loading the libs
-for (var i=0; i < myLibs.length; ++i) {
-	var myScript = document.createElement("script");
-	myScript.setAttribute("type","text/javascript");
-	if (document.URL.match(/^http/)) {	// only serve the gzipped lib if we're serving from http
-		myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".jsgz");
-	} else {
-		myScript.setAttribute("src", this.path + "lib/" + myLibs[i] + ".js");
-	};
-	if (i == myLibs.length-1) {	// only load our main function after the lib has finished loading
-		//myScript.setAttribute("onload","mainpage();");
-		document.getElementsByTagName("body")[0].setAttribute("onload","mainpage();");
-	};
-	document.getElementById("gcb-container").appendChild(myScript);
-};
+$("body").attr("onload","mainpage();");
 
 // Write the stylesheet into the <head>
-myHead = document.getElementsByTagName("head")[0];
-myCSS = document.createElement("link");
-myCSS.setAttribute("rel","stylesheet");
-myCSS.setAttribute("type","text/css");
-myCSS.setAttribute("href",this.path + "style.css");
-myHead.appendChild(myCSS);
+$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'style.css'));

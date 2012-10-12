@@ -81,13 +81,13 @@
 	font-weight: normal;
 }
 
-#gcb-container .diffadded {
+#gcb-container span.diffadded {
 	color: #008000;
 }
-#gcb-container .diffremoved {
+#gcb-container span.diffremoved {
 	color: #f00;
 }
-#gcb-container .diffchanged {
+#gcb-container span.diffmodified {
 	color: #800080;
 }
 
