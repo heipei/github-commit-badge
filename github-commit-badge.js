@@ -4,6 +4,15 @@
 // The source-code should be pretty self-explanatory. Also look at the 
 // style.css to customize the badge.
 
+// Development
+// In order to develop github-commit-badge, you will have to issue large number
+// of unauthenticated API calls. You need to register your own GitHub OAuth
+// application and insert the client_id and client_secret below. Make sure
+// never to commit these values!
+var client_id = "";
+var client_secret = "";
+var devel = "&client_id=" + client_id + "&client_secret=" + client_secret;
+
 // for truncating the commit-id and commit-message in place
 function truncate(string, length, truncation) {
 	length = length || 30;
@@ -122,10 +131,20 @@ function mainpage () {
     var myUser = badgeData.username;
     var myRepo = badgeData.repo.replace(/\./g, '-');
 
-    $.getJSON(urlData + "/commits/" + branchName + "?callback=?", function(data) {
+    $.getJSON(urlData + "/commits/" + branchName + "?callback=?" + devel, function(data) {
+      if(data.meta && data.meta.status == 403) {
+        console.log("Something went wrong requesting the commits for " + urlData + ": " + data.data.message);
+        $("#" + myUser + "_" + myRepo).text("Error: " + data.data.message);
+        return;
+      }
       parse_commit(data,myUser,myRepo,branchName);
     });
-    $.getJSON(urlData + "?callback=?", function(data) {
+    $.getJSON(urlData + "?callback=?" + devel, function(data) {
+      if(data.meta && data.meta.status == 403) {
+        console.log("Something went wrong requesting the commits for " + urlData + ": " + data.data.message);
+        $("#" + myUser + "_" + myRepo).text("Error: " + data.data.message);
+        return;
+      }
       parse_repo(data,myUser,myRepo);
     });
     
