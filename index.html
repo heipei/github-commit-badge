@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>github-commit-badge by heipei</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>github-commit-badge</h1>
+        <p>This is a banner which can display the latest commit of a Github-repo on your website.</p>
+
+        <p class="view"><a href="https://github.com/heipei/github-commit-badge">View the Project on GitHub <small>heipei/github-commit-badge</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/heipei/github-commit-badge/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/heipei/github-commit-badge/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/heipei/github-commit-badge">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>GitHub Commit Badge</h1>
+
+<p>This badge/banner can be used for displaying the latest (or a specific 
+commit) for a GitHub project on your website. It looks like this:</p>
+
+<div><img src="http://heipei.github.com/github-commit-badge/github-commit-badge.png" alt="GitHub commit badge"></div>
+
+<p>It is implemented in JavaScript, meaning that it is completely client-based. I
+recently rewrote this whole project using CoffeeScript and SASS instead of
+plain JavaScript and CSS.</p>
+
+<h2>Dependencies</h2>
+
+<p>github-commit-badge uses jquery. Many websites/blogs already include it, but if
+you don't, then simply add this line to your website:</p>
+
+<pre><code>&lt;script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>To use the badge on your website, upload the 'css', 'html', 'img' and 'js'
+directories to your webserver. Then you can spawn badges on your website like
+this:</p>
+
+<pre><code>&lt;div id="gcb-container"&gt;
+    &lt;script type="text/javascript"&gt;
+        Badges = [
+            { "username": "heipei",       "repo": "github-commit-badge",  "branch": "master" },
+            { "username": "git",          "repo": "git",                  "branch": "master" },
+            { "username": "brotherbard",  "repo": "gitx",                 "branch": "experimental" },
+            { "username": "rep",          "repo": "hpfeeds" }
+        ];
+    &lt;/script&gt;
+    &lt;script type="text/javascript" src="js/gcb.js"&gt;&lt;/script&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>If you want to use it on something like WordPress you'll have to put HTML
+quotes around the content of the first script-block </p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    &lt;!--
+        Badges = [
+        [...]
+        ];
+    --&gt;
+&lt;/script&gt;
+</code></pre>
+
+<h2>Website</h2>
+
+<ul>
+<li>
+<a href="http://github.com/heipei/github-commit-badge/tree">http://github.com/heipei/github-commit-badge/tree</a> has the latest version.</li>
+<li>See a working demonstration at <a href="http://heipei.net/files/github-commit-badge/">http://heipei.net/files/github-commit-badge/</a>
+</li>
+</ul><h2>FAQ</h2>
+
+<p><strong>Q</strong>: How does it work? Where does the data come from?<br><strong>A</strong>: For each repository, the code will issue two API requests to GitHub to fetch the information.</p>
+
+<p><strong>Q</strong>: Why is it called a badge when it's really more of a banner?<br><strong>A</strong>: Because I noticed that calling it banner increases the risk of it being filtered by AdBlock etc.</p>
+
+<h2>Developing</h2>
+
+<p>To make changes you should really use <a href="http://coffeescript.org/">CoffeeScript</a>
+and <a href="http://sass-lang.com/">Sass</a>. Simply set up watchers like this:</p>
+
+<pre><code>    sass --watch scss:css
+    coffee -c --watch -o js coffee
+</code></pre>
+
+<h2>Author</h2>
+
+<p>Johannes Gilger <a href="mailto:heipei@hackvalue.de">heipei@hackvalue.de</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/heipei">heipei</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
