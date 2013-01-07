@@ -1,0 +1,86 @@
+#gcb-container {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 13px;
+  width: 580px;
+  color: #333; }
+  #gcb-container .outline {
+    border: 1px solid #808080;
+    overflow: auto;
+    margin: 8px;
+    padding: 5px;
+    padding-top: 2px;
+    background-color: #F2F2F2;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px; }
+    #gcb-container .outline:hover {
+      background-color: #F5F2DD; }
+  #gcb-container .username {
+    margin: 1px 0px 4px 0px;
+    height: 16px;
+    padding-left: 18px;
+    color: gray;
+    background: url(../img/public.png) no-repeat top left; }
+  #gcb-container .diffline {
+    font-weight: normal;
+    font-size: 14px; }
+  #gcb-container .commitmessage, #gcb-container .commitmessagelong {
+    font-style: italic;
+    padding-left: 90px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-height: 16px;
+    background: url(../img/commit.png) no-repeat 70px top; }
+  #gcb-container .commitmessagelong {
+    white-space: pre; }
+  #gcb-container .diffstat {
+    font-weight: normal;
+    font-size: 0.9em; }
+  #gcb-container .badge {
+    color: gray;
+    text-decoration: underline;
+    font-weight: normal; }
+  #gcb-container .username a {
+    color: #4183C4;
+    text-decoration: none; }
+  #gcb-container .text-date {
+    color: #C44040; }
+  #gcb-container .committer {
+    color: #43651F; }
+  #gcb-container .email {
+    color: #69A031;
+    font-weight: normal; }
+  #gcb-container .followers {
+    margin-left: 5px;
+    float: right;
+    font-weight: normal; }
+  #gcb-container span.diffadded {
+    color: #008000; }
+  #gcb-container span.diffremoved {
+    color: #f00; }
+  #gcb-container span.diffmodified {
+    color: #800080; }
+  #gcb-container .gravatar {
+    border: 1px solid #fff6a9;
+    float: left;
+    margin: 2px 5px 2px 2px;
+    width: 60px;
+    width: 60px; }
+  #gcb-container .filelist {
+    margin-top: 15px; }
+  #gcb-container .filelist ul {
+    list-style: square inside;
+    margin: 0; }
+  #gcb-container .showMoreLink {
+    color: #4183C4;
+    display: none;
+    float: right;
+    opacity: 0.5; }
+  #gcb-container div.outline:hover .showMoreLink {
+    display: inline; }
+  #gcb-container a {
+    font-weight: bold; }
+  #gcb-container .username a:hover,
+  #gcb-container .badge:hover,
+  #gcb-container .showMoreLink:hover {
+    text-decoration: none; }

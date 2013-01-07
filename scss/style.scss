@@ -1,0 +1,133 @@
+// vim:ft=sass:et:sw=2:ts=2
+
+#gcb-container {
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
+	font-size: 13px;
+	width: 580px;
+	color: #333;
+
+  // outline == container itself
+	.outline {
+		border: 1px solid #808080;
+		overflow: auto;
+		margin: 8px;
+		padding: 5px;
+		padding-top: 2px;
+		background-color: #F2F2F2;
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+    &:hover {
+      background-color: #F5F2DD;
+    }
+	}
+  
+  .username {
+    margin: 1px 0px 4px 0px;
+    height: 16px;
+    padding-left: 18px;
+    color: gray;
+    background: url(../img/public.png) no-repeat top left;
+  }
+
+  .diffline {
+    font-weight: normal;
+    font-size: 14px;
+  }
+
+  .commitmessage, .commitmessagelong {
+    font-style: italic;
+    padding-left: 90px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-height: 16px;
+    background: url(../img/commit.png) no-repeat 70px top;
+  }
+
+  .commitmessagelong {
+    white-space: pre;
+  }
+
+  .diffstat {
+    font-weight: normal;
+    font-size: 0.9em;
+  }
+
+  .badge {
+    color: gray;
+    text-decoration: underline;
+    font-weight: normal;
+  }
+
+  .username a {
+    color: #4183C4;
+    text-decoration: none;
+  }
+
+  .text-date {
+    color: #C44040;
+  }
+
+  .committer {
+    color: #43651F;
+  }
+
+  .email {
+    color: #69A031;
+    font-weight: normal;
+  }
+
+  .followers {
+    margin-left: 5px;
+    float:right;
+    font-weight: normal;
+  }
+
+  span.diffadded {
+    color: #008000;
+  }
+  span.diffremoved {
+    color: #f00;
+  }
+  span.diffmodified {
+    color: #800080;
+  }
+
+  .gravatar {
+    border: 1px solid #fff6a9;
+    float: left;
+    margin: 2px 5px 2px 2px;
+    width: 60px;
+    width: 60px;
+  }
+
+  .filelist {
+    margin-top: 15px;
+  }
+
+  .filelist ul {
+    list-style: square inside;
+    margin: 0;
+  }
+    
+  .showMoreLink {
+    color: #4183C4;
+    display: none;
+    float: right;
+    opacity: 0.5;
+  }
+
+  div.outline:hover .showMoreLink {
+    display: inline;
+  }
+
+  a {
+    font-weight: bold;
+  }
+
+  .username a:hover,
+  .badge:hover,
+  .showMoreLink:hover {
+    text-decoration: none;
+  }
+}
