@@ -1,6 +1,14 @@
-<div id="gcb-template" class="outline" style="display: none;">
+<div id="gcb-template" class="outline header header-logged-in" style="display: none;">
   <div class="username">
-    <a href=""></a><span class="followers"></span>
+    <span class="mini-icon mini-icon-public-repo"></span> 
+    <a href=""></a>
+    <span class="branch"></span>
+    <span style="float: right">
+      <span class="mini-icon mini-icon-watchers"></span>
+      <span class="followers"></span>
+      <span class="mini-icon mini-icon-fork"></span>
+      <span class="forks"></span>
+    </span>
   </div>
 
   <div class="diffline">
@@ -11,29 +19,19 @@
     <span class="email"></span>
   </div>
 
-  <div class="commitmessage"></div>
+  <div class="commitmessage"><span class="mini-icon mini-icon-quotemark"></span></div>
   
-  <div class="commitmessagelong" style="display: none; "></div>
+  <div class="commitmessagelong" style="display: none; "><span class="mini-icon mini-icon-quotemark"></span></div>
   
   <div class="diffstat">
     (Files: <span class="diffadded"> added</span>, <span class="diffremoved"> removed</span>,
-    <span class="diffmodified"> modified</span>) <a href="" class="showMoreLink" id="">Show more</a>
+    <span class="diffmodified"> modified</span>)
   </div>
 
   <div class="filelist" id="" style="display: none; ">
-    <div class="diffmodified">
-      <span class="diffmodified" style="display: none">Modified</span>
-      <ul class="diffmodified"></ul>
-    </div>
-
-    <div class="diffremoved">
-      <span class="diffremoved" style="display: none">Removed</span>
-      <ul class="diffremoved"></ul>
-    </div>
-
-    <div class="diffadded">
-      <span class="diffadded" style="display: none">Added</span>
-      <ul class="diffadded"></ul>
-    </div>
+    <ul class="difflist"></ul>
+  </div>
+  <div class="showMore">
+  <a href="" class="showMoreLink" id="">Click to show more</a>
   </div>
 </div>

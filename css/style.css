@@ -1,45 +1,36 @@
 #gcb-container {
-  font-family: Helvetica, arial, freesans, clean, sans-serif;
-  font-size: 13px;
   width: 580px;
   color: #333; }
   #gcb-container .outline {
-    border: 1px solid #808080;
+    border: 1px solid #AAAAAA;
     overflow: auto;
     margin: 8px;
     padding: 5px;
     padding-top: 2px;
-    background-color: #F2F2F2;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     border-radius: 4px; }
-    #gcb-container .outline:hover {
-      background-color: #F5F2DD; }
   #gcb-container .username {
     margin: 1px 0px 4px 0px;
-    height: 16px;
-    padding-left: 18px;
-    color: gray;
-    background: url(../img/public.png) no-repeat top left; }
+    height: 17px;
+    color: gray; }
   #gcb-container .diffline {
     font-weight: normal;
     font-size: 14px; }
   #gcb-container .commitmessage, #gcb-container .commitmessagelong {
     font-style: italic;
-    padding-left: 90px;
+    padding-left: 65px;
     margin-top: 5px;
     margin-bottom: 5px;
-    min-height: 16px;
-    background: url(../img/commit.png) no-repeat 70px top; }
+    min-height: 16px; }
+    #gcb-container .commitmessage .mini-icon, #gcb-container .commitmessagelong .mini-icon {
+      margin-right: 5px;
+      opacity: 0.5; }
   #gcb-container .commitmessagelong {
     white-space: pre; }
   #gcb-container .diffstat {
-    font-weight: normal;
-    font-size: 0.9em; }
+    font-weight: normal; }
   #gcb-container .badge {
     color: gray;
-    text-decoration: underline;
-    font-weight: normal; }
+    font: 13px normal 'Droid Sans Mono', 'Consolas', 'Lucida Console', 'Courier New', monospace; }
   #gcb-container .username a {
     color: #4183C4;
     text-decoration: none; }
@@ -50,33 +41,39 @@
   #gcb-container .email {
     color: #69A031;
     font-weight: normal; }
-  #gcb-container .followers {
-    margin-left: 5px;
-    float: right;
-    font-weight: normal; }
   #gcb-container span.diffadded {
-    color: #008000; }
+    color: #6CC644; }
   #gcb-container span.diffremoved {
-    color: #f00; }
+    color: #BD2C00; }
   #gcb-container span.diffmodified {
-    color: #800080; }
+    color: #677a85; }
   #gcb-container .gravatar {
-    border: 1px solid #fff6a9;
+    border-radius: 6px;
     float: left;
     margin: 2px 5px 2px 2px;
     width: 60px;
     width: 60px; }
   #gcb-container .filelist {
     margin-top: 15px; }
-  #gcb-container .filelist ul {
-    list-style: square inside;
-    margin: 0; }
-  #gcb-container .showMoreLink {
-    color: #4183C4;
-    display: none;
+    #gcb-container .filelist ul {
+      list-style: none;
+      margin: 0; }
+      #gcb-container .filelist ul li {
+        margin-left: 5px; }
+        #gcb-container .filelist ul li span {
+          margin-right: 5px; }
+          #gcb-container .filelist ul li span.mini-icon-added {
+            color: #6CC644; }
+          #gcb-container .filelist ul li span.mini-icon-removed {
+            color: #BD2C00; }
+          #gcb-container .filelist ul li span.mini-icon-modified {
+            color: #677a85; }
+  #gcb-container .showMore {
+    display: inline;
     float: right;
+    margin-top: -18px;
     opacity: 0.5; }
-  #gcb-container div.outline:hover .showMoreLink {
+  #gcb-container div.outline:hover .showMore {
     display: inline; }
   #gcb-container a {
     font-weight: bold; }

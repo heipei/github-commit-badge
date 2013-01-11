@@ -20,8 +20,8 @@ devel = "&client_id=#{client_id}&client_secret=#{client_secret}"
 DEFAULT_BRANCH_NAME = "master"
 COMMIT_MSG_MAX_LENGTH = 120
 COMMIT_DISPLAYED_ID_LENGTH = 8
-SHOW_FILES_TXT = 'Show more'
-HIDE_FILES_TXT = 'Show less'
+SHOW_FILES_TXT = 'Click to show more'
+HIDE_FILES_TXT = 'Click to show less'
 
 # for truncating the commit-id and commit-message in place
 truncate = (string, length = 30, truncation = "...") ->
@@ -64,51 +64,44 @@ class Badge
       @commit_url = "https://github.com/#{@username}/#{@repo}/commit/#{data.data.sha}"
 
       # Split files into added/removed/modified
-      added = []
-      modified = []
-      removed = []
+      added = removed = modified = 0
 
       for file in data.data.files
         switch file.status
-          when "modified" then modified.push(file)
-          when "added" then added.push(file)
-          else removed.push(file)
+          when "modified"
+            modified++
+            $("ul.difflist", @selector).append($("<li/>").text(file.filename).
+              prepend($("<span class='mini-icon mini-icon-modified'/>")).
+              append($("<span class='diffmodified'/>").text(" (#{file.changes})")))
+          when "added"
+            added++
+            $("ul.difflist", @selector).append($("<li/>").text(file.filename).
+              prepend($("<span class='mini-icon mini-icon-added'/>")).
+              append($("<span class='diffadded'/>").text(" (#{file.changes})")))
+          else
+            removed++
+            $("ul.difflist", @selector).append($("<li/>").text(file.filename).
+              prepend($("<span class='mini-icon mini-icon-removed'/>")).
+              append($("<span class='diffremoved'/>").text(" (#{file.changes})")))
 
       # Insert data into the DOM badge
-      $("div.username", @selector).append " (branch: #{@branch})"
+      $("span.branch", @selector).html " (branch: <b>#{@branch}</b>)"
       $("div.diffline a.badge", @selector).attr({"href": @commit_url}).
         text(truncate(data.data.sha,COMMIT_DISPLAYED_ID_LENGTH,""))
       $("span.text-date", @selector).text(" #{parseDate(data.data.commit.committer.date)}")
       $("span.committer", @selector).text(data.data.commit.committer.name)
       $("span.email", @selector).text(" <#{data.data.commit.committer.email}>")
-      $("div.commitmessage", @selector).text(commit_msg(data.data.commit.message))
-      $("div.commitmessagelong", @selector).text(data.data.commit.message).hide()
+      $("div.commitmessage", @selector).append(commit_msg(data.data.commit.message))
+      $("div.commitmessagelong", @selector).append(data.data.commit.message).hide()
 
-      $("div.diffstat a.showMoreLink", @selector).attr("id", "showMoreLink_#{@name}")
+      $("a.showMoreLink", @selector).attr("id", "showMoreLink_#{@name}")
 
-      $("div.diffstat span.diffadded", @selector).before(added.length)
-      $("div.diffstat span.diffremoved", @selector).before(removed.length)
-      $("div.diffstat span.diffmodified", @selector).before(modified.length)
+      $("div.diffstat span.diffadded", @selector).before(added)
+      $("div.diffstat span.diffremoved", @selector).before(removed)
+      $("div.diffstat span.diffmodified", @selector).before(modified)
 
       $("div.filelist", @selector).attr({id: "files_#{@name}" })
 
-      if added.length > 0
-        $("div.diffadded span.diffadded", @selector).show()
-      for myAdded in added
-        $("div.diffadded ul", @selector).append($("<li/>").text(myAdded.filename).
-          append($("<span class='diffadded'/>").text(" (#{myAdded.changes})")))
-
-      if removed.length > 0
-        $("div.diffremoved span.diffremoved", @selector).show()
-      for myRemoved in removed
-        $("div.diffremoved ul", @selector).append($("<li/>").text(myRemoved.filename).
-          append($("<span class='diffremoved'/>").text(" (#{myRemoved.changes})")))
-
-      if modified.length > 0
-        $("div.diffmodified span.diffmodified", @selector).show()
-      for myModified in modified
-        $("div.diffmodified ul", @selector).append($("<li/>").text(myModified.filename).
-          append($("<span class='diffmodified'/>").text(" (#{myModified.changes})")))
 
       # Behaviour of the show-more/show-less link
       $("#showMoreLink_#{@name}").click =>
@@ -127,7 +120,8 @@ class Badge
   parse_repo: ->
     $.getJSON @api_repo, (data) =>
       $("div.username a", @selector).text("#{@username}/#{@repo}").attr("href", data.data.html_url)
-      $("span.followers", @selector).text("(#{data.data.forks} forks, #{data.data.watchers} starred)")
+      $("span.followers", @selector).text(data.data.watchers)
+      $("span.forks", @selector).text(data.data.forks)
 
 # onload function
 mainpage = ->
@@ -136,4 +130,5 @@ mainpage = ->
       new Badge(badgeData.username, badgeData.repo, badgeData.branch)
 
 $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'css/style.css'))
+$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'https://github.com/assets/github.css'))
 $ -> mainpage() # document.ready

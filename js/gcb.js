@@ -6,10 +6,6 @@
 
   client_secret = "";
 
-  client_id = "ffc2b97509f21108d9f1";
-
-  client_secret = "a18681acb21531b49527198b86f5350f6320cfb1";
-
   devel = "&client_id=" + client_id + "&client_secret=" + client_secret;
 
   DEFAULT_BRANCH_NAME = "master";
@@ -18,9 +14,9 @@
 
   COMMIT_DISPLAYED_ID_LENGTH = 8;
 
-  SHOW_FILES_TXT = 'Show more';
+  SHOW_FILES_TXT = 'Click to show more';
 
-  HIDE_FILES_TXT = 'Show less';
+  HIDE_FILES_TXT = 'Click to show less';
 
   truncate = function(string, length, truncation) {
     if (length == null) {
@@ -62,7 +58,7 @@
     Badge.prototype.parse_commit = function() {
       var _this = this;
       return $.getJSON(this.api_commit, function(data) {
-        var added, file, modified, myAdded, myModified, myRemoved, removed, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref;
+        var added, file, modified, removed, _i, _len, _ref;
         if (data.meta && data.meta.status === 403) {
           console.log("Something went wrong requesting the commits for " + _this.api_commit + ": " + data.data.message);
           $(selector).text("Error: " + data.data.message);
@@ -73,60 +69,40 @@
           alt: ""
         });
         _this.commit_url = "https://github.com/" + _this.username + "/" + _this.repo + "/commit/" + data.data.sha;
-        added = [];
-        modified = [];
-        removed = [];
+        added = removed = modified = 0;
         _ref = data.data.files;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           file = _ref[_i];
           switch (file.status) {
             case "modified":
-              modified.push(file);
+              modified++;
+              $("ul.difflist", _this.selector).append($("<li/>").text(file.filename).prepend($("<span class='mini-icon mini-icon-modified'/>")).append($("<span class='diffmodified'/>").text(" (" + file.changes + ")")));
               break;
             case "added":
-              added.push(file);
+              added++;
+              $("ul.difflist", _this.selector).append($("<li/>").text(file.filename).prepend($("<span class='mini-icon mini-icon-added'/>")).append($("<span class='diffadded'/>").text(" (" + file.changes + ")")));
               break;
             default:
-              removed.push(file);
+              removed++;
+              $("ul.difflist", _this.selector).append($("<li/>").text(file.filename).prepend($("<span class='mini-icon mini-icon-removed'/>")).append($("<span class='diffremoved'/>").text(" (" + file.changes + ")")));
           }
         }
-        $("div.username", _this.selector).append(" (branch: " + _this.branch + ")");
+        $("span.branch", _this.selector).html(" (branch: <b>" + _this.branch + "</b>)");
         $("div.diffline a.badge", _this.selector).attr({
           "href": _this.commit_url
         }).text(truncate(data.data.sha, COMMIT_DISPLAYED_ID_LENGTH, ""));
         $("span.text-date", _this.selector).text(" " + (parseDate(data.data.commit.committer.date)));
         $("span.committer", _this.selector).text(data.data.commit.committer.name);
         $("span.email", _this.selector).text(" <" + data.data.commit.committer.email + ">");
-        $("div.commitmessage", _this.selector).text(commit_msg(data.data.commit.message));
-        $("div.commitmessagelong", _this.selector).text(data.data.commit.message).hide();
-        $("div.diffstat a.showMoreLink", _this.selector).attr("id", "showMoreLink_" + _this.name);
-        $("div.diffstat span.diffadded", _this.selector).before(added.length);
-        $("div.diffstat span.diffremoved", _this.selector).before(removed.length);
-        $("div.diffstat span.diffmodified", _this.selector).before(modified.length);
+        $("div.commitmessage", _this.selector).append(commit_msg(data.data.commit.message));
+        $("div.commitmessagelong", _this.selector).append(data.data.commit.message).hide();
+        $("a.showMoreLink", _this.selector).attr("id", "showMoreLink_" + _this.name);
+        $("div.diffstat span.diffadded", _this.selector).before(added);
+        $("div.diffstat span.diffremoved", _this.selector).before(removed);
+        $("div.diffstat span.diffmodified", _this.selector).before(modified);
         $("div.filelist", _this.selector).attr({
           id: "files_" + _this.name
         });
-        if (added.length > 0) {
-          $("div.diffadded span.diffadded", _this.selector).show();
-        }
-        for (_j = 0, _len1 = added.length; _j < _len1; _j++) {
-          myAdded = added[_j];
-          $("div.diffadded ul", _this.selector).append($("<li/>").text(myAdded.filename).append($("<span class='diffadded'/>").text(" (" + myAdded.changes + ")")));
-        }
-        if (removed.length > 0) {
-          $("div.diffremoved span.diffremoved", _this.selector).show();
-        }
-        for (_k = 0, _len2 = removed.length; _k < _len2; _k++) {
-          myRemoved = removed[_k];
-          $("div.diffremoved ul", _this.selector).append($("<li/>").text(myRemoved.filename).append($("<span class='diffremoved'/>").text(" (" + myRemoved.changes + ")")));
-        }
-        if (modified.length > 0) {
-          $("div.diffmodified span.diffmodified", _this.selector).show();
-        }
-        for (_l = 0, _len3 = modified.length; _l < _len3; _l++) {
-          myModified = modified[_l];
-          $("div.diffmodified ul", _this.selector).append($("<li/>").text(myModified.filename).append($("<span class='diffmodified'/>").text(" (" + myModified.changes + ")")));
-        }
         $("#showMoreLink_" + _this.name).click(function() {
           $("#files_" + _this.name).toggle();
           $("" + _this.selector + " > .commitmessagelong").toggle();
@@ -148,7 +124,8 @@
       var _this = this;
       return $.getJSON(this.api_repo, function(data) {
         $("div.username a", _this.selector).text("" + _this.username + "/" + _this.repo).attr("href", data.data.html_url);
-        return $("span.followers", _this.selector).text("(" + data.data.forks + " forks, " + data.data.watchers + " starred)");
+        $("span.followers", _this.selector).text(data.data.watchers);
+        return $("span.forks", _this.selector).text(data.data.forks);
       });
     };
 
@@ -169,6 +146,8 @@
   };
 
   $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', 'css/style.css'));
+
+  $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', 'https://github.com/assets/github.css'));
 
   $(function() {
     return mainpage();
