@@ -107,9 +107,9 @@ class Badge
 
       # Behaviour of the show-more/show-less link
       $("#showMoreLink_#{@name}").click =>
-        $("#files_#{@name}").toggle(1000)
-        $("#{@selector} > .commitmessagelong").toggle(1000)
-        $("#{@selector} > .commitmessage").toggle(1000)
+        $("#files_#{@name}").toggle(400)
+        $("#{@selector} > .commitmessagelong").toggle()
+        $("#{@selector} > .commitmessage").toggle()
         if $("#showMoreLink_#{@name}").text() is SHOW_FILES_TXT
           $("#showMoreLink_#{@name}").text(HIDE_FILES_TXT)
         else

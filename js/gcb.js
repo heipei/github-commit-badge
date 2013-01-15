@@ -106,9 +106,9 @@
           id: "files_" + _this.name
         });
         $("#showMoreLink_" + _this.name).click(function() {
-          $("#files_" + _this.name).toggle(1000);
-          $("" + _this.selector + " > .commitmessagelong").toggle(1000);
-          $("" + _this.selector + " > .commitmessage").toggle(1000);
+          $("#files_" + _this.name).toggle(400);
+          $("" + _this.selector + " > .commitmessagelong").toggle();
+          $("" + _this.selector + " > .commitmessage").toggle();
           if ($("#showMoreLink_" + _this.name).text() === SHOW_FILES_TXT) {
             $("#showMoreLink_" + _this.name).text(HIDE_FILES_TXT);
           } else {
