@@ -11,10 +11,12 @@
 # In order to develop github-commit-badge, you will have to issue repeated
 # unauthenticated API calls. You need to register your own GitHub OAuth
 # application and insert the client_id and client_secret below. Make sure never
-# to commit these values!
-client_id = ""
-client_secret = ""
-devel = "&client_id=#{client_id}&client_secret=#{client_secret}"
+# to commit these values! It's best to keep these lines in a separate file
+# (config.coffee) and itclude it after gcb.js
+config = this
+config.client_id = ""
+config.client_secret = ""
+config.devel = "&client_id=#{client_id}&client_secret=#{client_secret}"
 
 # nuts and bolts for adjustment
 DEFAULT_BRANCH_NAME = "master"
@@ -105,9 +107,9 @@ class Badge
 
       # Behaviour of the show-more/show-less link
       $("#showMoreLink_#{@name}").click =>
-        $("#files_#{@name}").toggle()
-        $("#{@selector} > .commitmessagelong").toggle()
-        $("#{@selector} > .commitmessage").toggle()
+        $("#files_#{@name}").toggle(1000)
+        $("#{@selector} > .commitmessagelong").toggle(1000)
+        $("#{@selector} > .commitmessage").toggle(1000)
         if $("#showMoreLink_#{@name}").text() is SHOW_FILES_TXT
           $("#showMoreLink_#{@name}").text(HIDE_FILES_TXT)
         else
