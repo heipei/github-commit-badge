@@ -31,7 +31,9 @@ truncate = (string, length = 30, truncation = "...") ->
 
 # format the commit message
 commit_msg = (string) ->
-  truncate(string.replace(/\n.*/g, "").replace(/\r.*/g, ""),COMMIT_MSG_MAX_LENGTH)
+  s = truncate(string.replace(/\n/, "").replace(/\r/, ""),COMMIT_MSG_MAX_LENGTH)
+  console.log s
+  return s
 
 # shorten the date
 parseDate = (dateTime) ->
@@ -93,8 +95,7 @@ class Badge
       $("span.text-date", @selector).text(" #{parseDate(data.data.commit.committer.date)}")
       $("span.committer", @selector).text(data.data.commit.committer.name)
       $("span.email", @selector).text(" <#{data.data.commit.committer.email}>")
-      $("div.commitmessage", @selector).append(commit_msg(data.data.commit.message))
-      $("div.commitmessagelong", @selector).append(data.data.commit.message).hide()
+      $("div.commitmessage", @selector).text(data.data.commit.message)
 
       $("a.showMoreLink", @selector).attr("id", "showMoreLink_#{@name}")
 
@@ -107,13 +108,13 @@ class Badge
 
       # Behaviour of the show-more/show-less link
       $("#showMoreLink_#{@name}").click =>
-        $("#files_#{@name}").toggle(400)
-        $("#{@selector} > .commitmessagelong").toggle()
-        $("#{@selector} > .commitmessage").toggle()
         if $("#showMoreLink_#{@name}").text() is SHOW_FILES_TXT
           $("#showMoreLink_#{@name}").text(HIDE_FILES_TXT)
+          $("#{@selector} > .commitmessage").css("max-height", "1000px")
         else
           $("#showMoreLink_#{@name}").text(SHOW_FILES_TXT)
+          $("#{@selector} > .commitmessage").css("max-height", "1.2em")
+        $("#files_#{@name}").toggle(400)
         return false
 
       $(@selector).click => 

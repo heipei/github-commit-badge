@@ -31,7 +31,10 @@
   };
 
   commit_msg = function(string) {
-    return truncate(string.replace(/\n.*/g, "").replace(/\r.*/g, ""), COMMIT_MSG_MAX_LENGTH);
+    var s;
+    s = truncate(string.replace(/\n/, "").replace(/\r/, ""), COMMIT_MSG_MAX_LENGTH);
+    console.log(s);
+    return s;
   };
 
   parseDate = function(dateTime) {
@@ -96,8 +99,7 @@
           $("span.text-date", _this.selector).text(" " + (parseDate(data.data.commit.committer.date)));
           $("span.committer", _this.selector).text(data.data.commit.committer.name);
           $("span.email", _this.selector).text(" <" + data.data.commit.committer.email + ">");
-          $("div.commitmessage", _this.selector).append(commit_msg(data.data.commit.message));
-          $("div.commitmessagelong", _this.selector).append(data.data.commit.message).hide();
+          $("div.commitmessage", _this.selector).text(data.data.commit.message);
           $("a.showMoreLink", _this.selector).attr("id", "showMoreLink_" + _this.name);
           $("div.diffstat span.diffadded", _this.selector).before(added);
           $("div.diffstat span.diffremoved", _this.selector).before(removed);
@@ -106,14 +108,14 @@
             id: "files_" + _this.name
           });
           $("#showMoreLink_" + _this.name).click(function() {
-            $("#files_" + _this.name).toggle(400);
-            $("" + _this.selector + " > .commitmessagelong").toggle();
-            $("" + _this.selector + " > .commitmessage").toggle();
             if ($("#showMoreLink_" + _this.name).text() === SHOW_FILES_TXT) {
               $("#showMoreLink_" + _this.name).text(HIDE_FILES_TXT);
+              $("" + _this.selector + " > .commitmessage").css("max-height", "1000px");
             } else {
               $("#showMoreLink_" + _this.name).text(SHOW_FILES_TXT);
+              $("" + _this.selector + " > .commitmessage").css("max-height", "1.2em");
             }
+            $("#files_" + _this.name).toggle(400);
             return false;
           });
           return $(_this.selector).click(function() {

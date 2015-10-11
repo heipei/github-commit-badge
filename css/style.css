@@ -15,17 +15,23 @@
   #gcb-container .diffline {
     font-weight: normal;
     font-size: 14px; }
-  #gcb-container .commitmessage, #gcb-container .commitmessagelong {
+  #gcb-container .commitmessage {
     font-style: italic;
-    padding-left: 65px;
     margin-top: 5px;
     margin-bottom: 5px;
-    min-height: 16px; }
-    #gcb-container .commitmessage .octicon, #gcb-container .commitmessagelong .octicon {
+    line-height: 1.2em;
+    max-height: 1.2em;
+    -webkit-transition: max-height 1s ease;
+    -moz-transition: max-height 1s ease;
+    transition: max-height 1s ease;
+    overflow: hidden;
+    white-space: pre; }
+    #gcb-container .commitmessage .octicon {
       margin-right: 5px;
       opacity: 0.5; }
-  #gcb-container .commitmessagelong {
-    white-space: pre; }
+  #gcb-container .quote {
+    margin: 0px 5px 0px 5px;
+    float: left; }
   #gcb-container .diffstat {
     font-weight: normal; }
   #gcb-container .badge {

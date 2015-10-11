@@ -7,6 +7,7 @@ $color-removed: #BD2C00;
 	width: 580px;
 	color: #333;
 
+
   // outline == container itself
 	.outline {
 		border: 1px solid #AAAAAA;
@@ -28,22 +29,28 @@ $color-removed: #BD2C00;
     font-size: 14px;
   }
 
-  .commitmessage, .commitmessagelong {
+  .commitmessage {
     font-style: italic;
-    padding-left: 65px;
     margin-top: 5px;
     margin-bottom: 5px;
-    min-height: 16px;
+    line-height: 1.2em;
+    max-height: 1.2em;
+    -webkit-transition: max-height 1s ease;
+    -moz-transition: max-height 1s ease;
+    transition: max-height 1s ease;
+    overflow: hidden;
+    white-space: pre;
     .octicon {
       margin-right: 5px;
       opacity: 0.5;
     }
   }
 
-
-  .commitmessagelong {
-    white-space: pre;
+  .quote {
+    margin: 0px 5px 0px 5px;
+    float: left;
   }
+
 
   .diffstat {
     font-weight: normal;
