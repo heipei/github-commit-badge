@@ -67,7 +67,7 @@
             return;
           }
           $("div.diffline img.gravatar", _this.selector).attr({
-            "src": data.data.committer.avatar_url,
+            "src": data.data.committer.avatar_url + "&s=120",
             alt: ""
           });
           _this.commit_url = "https://github.com/" + _this.username + "/" + _this.repo + "/commit/" + data.data.sha;

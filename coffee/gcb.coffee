@@ -60,7 +60,7 @@ class Badge
         return
 
       # Request the avatar first
-      $("div.diffline img.gravatar", @selector).attr({"src": data.data.committer.avatar_url, alt: "" })
+      $("div.diffline img.gravatar", @selector).attr({"src": data.data.committer.avatar_url + "&s=120", alt: "" })
 
       # GitHub URL for the last commit
       @commit_url = "https://github.com/#{@username}/#{@repo}/commit/#{data.data.sha}"
