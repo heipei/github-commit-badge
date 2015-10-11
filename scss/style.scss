@@ -31,7 +31,7 @@
     margin-top: 5px;
     margin-bottom: 5px;
     min-height: 16px;
-    .mini-icon {
+    .octicon {
       margin-right: 5px;
       opacity: 0.5;
     }
@@ -94,13 +94,13 @@
         margin-left: 5px;
         span {
           margin-right: 5px;
-          &.mini-icon-added {
+          &.octicon-diff-added {
             color: #6CC644;
           }
-          &.mini-icon-removed {
+          &.octicon-diff-removed {
             color: #BD2C00;
           }
-          &.mini-icon-modified {
+          &.octicon-diff-modified {
             color: #677a85;
           }
         }

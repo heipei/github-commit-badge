@@ -73,17 +73,17 @@ class Badge
           when "modified"
             modified++
             $("ul.difflist", @selector).append($("<li/>").text(file.filename).
-              prepend($("<span class='mini-icon mini-icon-modified'/>")).
+              prepend($("<span class='octicon octicon-diff-modified'/>")).
               append($("<span class='diffmodified'/>").text(" (#{file.changes})")))
           when "added"
             added++
             $("ul.difflist", @selector).append($("<li/>").text(file.filename).
-              prepend($("<span class='mini-icon mini-icon-added'/>")).
+              prepend($("<span class='octicon octicon-diff-added'/>")).
               append($("<span class='diffadded'/>").text(" (#{file.changes})")))
           else
             removed++
             $("ul.difflist", @selector).append($("<li/>").text(file.filename).
-              prepend($("<span class='mini-icon mini-icon-removed'/>")).
+              prepend($("<span class='octicon octicon-diff-removed'/>")).
               append($("<span class='diffremoved'/>").text(" (#{file.changes})")))
 
       # Insert data into the DOM badge
@@ -132,5 +132,6 @@ mainpage = ->
       new Badge(badgeData.username, badgeData.repo, badgeData.branch)
 
 $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'css/style.css'))
-$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'https://github.com/assets/github.css'))
+#$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'https://cdn.jsdelivr.net/g/primer'))
+$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'https://assets-cdn.github.com/assets/github-4fb2951910292e447b02038004afc1cb52066737eae7585406ec7f5d507810af.css'))
 $ -> mainpage() # document.ready

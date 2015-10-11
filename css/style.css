@@ -21,7 +21,7 @@
     margin-top: 5px;
     margin-bottom: 5px;
     min-height: 16px; }
-    #gcb-container .commitmessage .mini-icon, #gcb-container .commitmessagelong .mini-icon {
+    #gcb-container .commitmessage .octicon, #gcb-container .commitmessagelong .octicon {
       margin-right: 5px;
       opacity: 0.5; }
   #gcb-container .commitmessagelong {
@@ -62,11 +62,11 @@
         margin-left: 5px; }
         #gcb-container .filelist ul li span {
           margin-right: 5px; }
-          #gcb-container .filelist ul li span.mini-icon-added {
+          #gcb-container .filelist ul li span.octicon-diff-added {
             color: #6CC644; }
-          #gcb-container .filelist ul li span.mini-icon-removed {
+          #gcb-container .filelist ul li span.octicon-diff-removed {
             color: #BD2C00; }
-          #gcb-container .filelist ul li span.mini-icon-modified {
+          #gcb-container .filelist ul li span.octicon-diff-modified {
             color: #677a85; }
   #gcb-container .showMore {
     display: inline;
