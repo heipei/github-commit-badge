@@ -1,4 +1,7 @@
 // vim:ft=sass:et:sw=2:ts=2
+$color-modified: #d0b44c;
+$color-added: #6CC644;
+$color-removed: #BD2C00;
 
 #gcb-container {
 	width: 580px;
@@ -70,13 +73,13 @@
   }
 
   span.diffadded {
-    color: #6CC644;
+    color: $color-added;
   }
   span.diffremoved {
-    color: #BD2C00;
+    color: $color-removed;
   }
   span.diffmodified {
-    color: #677a85;
+    color: $color-modified;
   }
 
   .gravatar {
@@ -95,13 +98,13 @@
         span {
           margin-right: 5px;
           &.octicon-diff-added {
-            color: #6CC644;
+            color: $color-added;
           }
           &.octicon-diff-removed {
-            color: #BD2C00;
+            color: $color-removed;
           }
           &.octicon-diff-modified {
-            color: #677a85;
+            color: $color-modified;
           }
         }
       }

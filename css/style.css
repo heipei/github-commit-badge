@@ -46,7 +46,7 @@
   #gcb-container span.diffremoved {
     color: #BD2C00; }
   #gcb-container span.diffmodified {
-    color: #677a85; }
+    color: #d0b44c; }
   #gcb-container .gravatar {
     border-radius: 6px;
     float: left;
@@ -67,7 +67,7 @@
           #gcb-container .filelist ul li span.octicon-diff-removed {
             color: #BD2C00; }
           #gcb-container .filelist ul li span.octicon-diff-modified {
-            color: #677a85; }
+            color: #d0b44c; }
   #gcb-container .showMore {
     display: inline;
     float: right;
@@ -81,3 +81,5 @@
   #gcb-container .badge:hover,
   #gcb-container .showMoreLink:hover {
     text-decoration: none; }
+
+/*# sourceMappingURL=style.css.map */
