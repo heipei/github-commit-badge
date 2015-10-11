@@ -1,13 +1,19 @@
 #gcb-container {
   width: 580px;
-  color: #333; }
+  color: #333;
+  font: 13px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
   #gcb-container .outline {
     border: 1px solid #AAAAAA;
     overflow: auto;
     margin: 8px;
     padding: 5px;
     padding-top: 2px;
-    border-radius: 4px; }
+    border-radius: 4px;
+    background-color: whitesmoke;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    box-sizing: border-box;
+    color: #333333; }
   #gcb-container .username {
     margin: 1px 0px 4px 0px;
     height: 17px;
@@ -54,10 +60,10 @@
   #gcb-container span.diffmodified {
     color: #d0b44c; }
   #gcb-container .gravatar {
+    border: 1px solid #aaaaaa;
     border-radius: 6px;
     float: left;
     margin: 2px 5px 2px 2px;
-    width: 60px;
     width: 60px; }
   #gcb-container .filelist {
     margin-top: 15px; }

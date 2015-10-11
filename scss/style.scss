@@ -7,6 +7,8 @@ $color-removed: #BD2C00;
 	width: 580px;
 	color: #333;
 
+  font: 13px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+
 
   // outline == container itself
 	.outline {
@@ -16,6 +18,11 @@ $color-removed: #BD2C00;
 		padding: 5px;
 		padding-top: 2px;
 		border-radius: 4px;
+    background-color: rgb(245, 245, 245);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    box-sizing: border-box;
+    color: rgb(51, 51, 51);
 	}
   
   .username {
@@ -90,10 +97,10 @@ $color-removed: #BD2C00;
   }
 
   .gravatar {
+    border: 1px solid #aaaaaa;
 		border-radius: 6px;
     float: left;
     margin: 2px 5px 2px 2px;
-    width: 60px;
     width: 60px;
   }
 

@@ -129,7 +129,8 @@
       return $.getJSON(this.api_repo, (function(_this) {
         return function(data) {
           $("div.username a", _this.selector).text("" + _this.username + "/" + _this.repo).attr("href", data.data.html_url);
-          $("span.followers", _this.selector).text(data.data.watchers);
+          $("span.followers", _this.selector).text(data.data.subscribers_count);
+          $("span.stars", _this.selector).text(data.data.stargazers_count);
           return $("span.forks", _this.selector).text(data.data.forks);
         };
       })(this));

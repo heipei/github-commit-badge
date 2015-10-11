@@ -123,7 +123,8 @@ class Badge
   parse_repo: ->
     $.getJSON @api_repo, (data) =>
       $("div.username a", @selector).text("#{@username}/#{@repo}").attr("href", data.data.html_url)
-      $("span.followers", @selector).text(data.data.watchers)
+      $("span.followers", @selector).text(data.data.subscribers_count)
+      $("span.stars", @selector).text(data.data.stargazers_count)
       $("span.forks", @selector).text(data.data.forks)
 
 # onload function
